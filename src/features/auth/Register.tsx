@@ -10,7 +10,9 @@ function Register(): JSX.Element {
 	const error = useAppSelector(selectRegisterFormError);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [passwordRepeat, setPasswordRepeat] = useState('');
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	// const [passwordRepeat, setPasswordRepeat] = useState('');
 
 	const handleSubmit = useCallback(
 		async (event: React.FormEvent) => {
@@ -19,7 +21,8 @@ function Register(): JSX.Element {
 				register({
 					email,
 					password,
-					passwordRepeat,
+					firstName,
+					lastName,
 				})
 			);
 			if (register.fulfilled.match(dispatchResult)) {
@@ -27,7 +30,7 @@ function Register(): JSX.Element {
 				navigate('/');
 			}
 		},
-		[dispatch, email, navigate, password, passwordRepeat]
+		[dispatch, email, navigate, password]
 	);
 
 	const handleNameChange = useCallback(
@@ -46,9 +49,25 @@ function Register(): JSX.Element {
 		[dispatch]
 	);
 
-	const handlePasswordRepeatChange = useCallback(
+	const handleFirstNameChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setPasswordRepeat(event.target.value);
+			setFirstName(event.target.value);
+			dispatch(resetRegisterFormError());
+		},
+		[dispatch]
+	);
+
+	const handleLastNameChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			setLastName(event.target.value);
+			dispatch(resetRegisterFormError());
+		},
+		[dispatch]
+	);
+
+	const handleEmailChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			setEmail(event.target.value);
 			dispatch(resetRegisterFormError());
 		},
 		[dispatch]
@@ -62,6 +81,7 @@ function Register(): JSX.Element {
 					{error}
 				</div>
 			)}
+
 			<div className="mb-3">
 				<label htmlFor="name-input" className="form-label">
 					Имя
@@ -71,8 +91,8 @@ function Register(): JSX.Element {
 					className={`form-control ${error ? 'is-invalid' : ''}`}
 					id="name-input"
 					name="username"
-					value={email}
-					onChange={handleNameChange}
+					value={firstName}
+					onChange={handleFirstNameChange}
 				/>
 			</div>
 			<div className="mb-3">
@@ -89,18 +109,33 @@ function Register(): JSX.Element {
 				/>
 			</div>
 			<div className="mb-3">
-				<label htmlFor="password-repeat-input" className="form-label">
-					Повторите пароль
+				<label htmlFor="lastName" className="form-label">
+					Фамилия
 				</label>
 				<input
-					type="password"
+					type="text"
 					className={`form-control ${error ? 'is-invalid' : ''}`}
-					id="password-repeat-input"
-					name="passwordRepeat"
-					value={passwordRepeat}
-					onChange={handlePasswordRepeatChange}
+					id="lastName"
+					name="lastName"
+					value={lastName}
+					onChange={handleLastNameChange}
 				/>
 			</div>
+
+			<div className="mb-3">
+				<label htmlFor="email" className="form-label">
+					email
+				</label>
+				<input
+					type="text"
+					className={`form-control ${error ? 'is-invalid' : ''}`}
+					id="email"
+					name="email"
+					value={email}
+					onChange={handleEmailChange}
+				/>
+			</div>
+
 			<button type="submit" className="btn btn-primary">
 				Зарегистрироваться
 			</button>
