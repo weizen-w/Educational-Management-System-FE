@@ -1,5 +1,5 @@
 export default interface Course {
 	id: number;
 	name: string;
-	archived: string;
+	archived: boolean;
 }
