@@ -1,10 +1,3 @@
-/**
- * 20/08/2023
- * frontend-demo
- *
- * @author Alisher Khamidov (AIT TR)
- */
-
 // eslint-disable-next-line import/default
 import React from 'react';
 // eslint-disable-next-line import/default

@@ -1,50 +1,56 @@
 import { useCallback } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logout } from '../../features/auth/authSlice';
-import { selectUser } from '../../features/auth/selectors';
+import { selectAuthChecked, selectUser } from '../../features/auth/selectors';
 
 function Navbar(): JSX.Element {
 	const dispatch = useAppDispatch();
-	const location = useLocation();
 	const navigate = useNavigate();
 	const user = useAppSelector(selectUser);
+	const authChecked = useAppSelector(selectAuthChecked);
 
 	const handleLogout = useCallback(
 		async (event: React.MouseEvent) => {
 			event.preventDefault();
 			const dispatchResult = await dispatch(logout());
 			if (logout.fulfilled.match(dispatchResult)) {
-				navigate('/auth/login');
+				navigate('/');
 			}
 		},
 		[dispatch, navigate]
 	);
 	return (
 		<nav>
-			{!user ? (
+			{!authChecked ? (
 				<>
-					<NavLink to="/auth/login">Войти</NavLink>
-					<NavLink to="/auth/register">Регистрация</NavLink>
+					<NavLink to="/auth/login">Sign in</NavLink>
+					<NavLink to="/auth/register">Registration</NavLink>
 				</>
-			) : location.pathname === '/' ? (
-				user.role === 'ADMIN' ? (
-					<>
-						<NavLink to="/admin/users">Пользователи</NavLink>
-					 	<NavLink to="/admin/tasks">Задачи всех пользователей</NavLink>
-					</>
-				) : (
-					<NavLink to="/tasks">Задачи текущего пользователя</NavLink>
-				)
 			) : (
-				<NavLink to="/" onClick={handleLogout}>
-					На главную
-				</NavLink>
-			)}
-			{user && (
-				<NavLink to="" onClick={handleLogout}>
-					Выйти
-				</NavLink>
+				<>
+					{user?.role === 'ADMIN' && (
+						<>
+							<NavLink to="/account/profile">Personal information</NavLink>
+              <NavLink to="/account/users">Course management</NavLink>
+							<NavLink to="/account/courses">Course management</NavLink>
+						</>
+					)}
+
+					{user?.role === 'TEACHER' && (
+						<>
+							<NavLink to="/account/profile">Personal information</NavLink>
+						</>
+					)}
+					{user?.role === 'STUDENT' && (
+						<>
+							<NavLink to="/account/profile">Personal information</NavLink>
+						</>
+					)}
+					<NavLink to="/" onClick={handleLogout}>
+						Sign out
+					</NavLink>
+				</>
 			)}
 		</nav>
 	);

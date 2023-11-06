@@ -39,9 +39,10 @@ function Register(): JSX.Element {
 				navigate('/');
 			}
 		},
-		[dispatch, email, navigate, password, passwordRepeat]
+		[dispatch, email, navigate, password, firstName, lastName]
 	);
-	const handleNameChange = useCallback(
+
+	const handleEmailChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			setEmail(event.target.value);
 			dispatch(resetRegisterFormError());
@@ -56,8 +57,8 @@ function Register(): JSX.Element {
 		},
 		[dispatch]
 	);
-
-	const handleFirstNameChange = useCallback(
+  
+  const handleFirstNameChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			setFirstName(event.target.value);
 			dispatch(resetRegisterFormError());
@@ -73,17 +74,9 @@ function Register(): JSX.Element {
 		[dispatch]
 	);
 
-	const handleEmailChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setEmail(event.target.value);
-			dispatch(resetRegisterFormError());
-		},
-		[dispatch]
-	);
-
 	return (
 		<form className="auth-form" onSubmit={handleSubmit}>
-			<h2>Регистрация</h2>
+			<h2>Registration</h2>
 			{error && (
 				<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
 					{error}
@@ -95,33 +88,6 @@ function Register(): JSX.Element {
 				</div>
 			)}
 
-			<div className="mb-3">
-				<label htmlFor="name-input" className="form-label">
-					Имя
-				</label>
-				<input
-					type="text"
-					className={`form-control ${error ? 'is-invalid' : ''}`}
-					id="name-input"
-					name="username"
-					value={firstName}
-					onChange={handleFirstNameChange}
-				/>
-			</div>
-
-			<div className="mb-3">
-				<label htmlFor="lastName" className="form-label">
-					Фамилия
-				</label>
-				<input
-					type="text"
-					className={`form-control ${error ? 'is-invalid' : ''}`}
-					id="lastName"
-					name="lastName"
-					value={lastName}
-					onChange={handleLastNameChange}
-				/>
-			</div>
 			<div className="mb-3">
 				<label htmlFor="email" className="form-label">
 					email
@@ -138,7 +104,7 @@ function Register(): JSX.Element {
 
 			<div className="mb-3">
 				<label htmlFor="password-input" className="form-label">
-					Пароль
+					Password
 				</label>
 				<input
 					type="password"
@@ -151,7 +117,7 @@ function Register(): JSX.Element {
 			</div>
 			<div className="mb-3">
 				<label htmlFor="password-repeat-input" className="form-label">
-					Повторите пароль
+					Repeat the password
 				</label>
 				<input
 					type="password"
@@ -163,8 +129,34 @@ function Register(): JSX.Element {
 				/>
 			</div>
 
+			<div className="mb-3">
+				<label htmlFor="first-name-input" className="form-label">
+					Enter your name
+				</label>
+				<input
+					type="text"
+					className={`form-control ${error ? 'is-invalid' : ''}`}
+					id="first-name-input"
+					name="firstName"
+					value={firstName}
+					onChange={handleFirstNameChange}
+				/>
+			</div>
+			<div className="mb-3">
+				<label htmlFor="last-name-input" className="form-label">
+					Enter your surname
+				</label>
+				<input
+					type="text"
+					className={`form-control ${error ? 'is-invalid' : ''}`}
+					id="last-name-input"
+					name="lastName"
+					value={lastName}
+					onChange={handleLastNameChange}
+				/>
+			</div>
 			<button type="submit" className="btn btn-primary">
-				Зарегистрироваться
+				Sign up
 			</button>
 		</form>
 	);

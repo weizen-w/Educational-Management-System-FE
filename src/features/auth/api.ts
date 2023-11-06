@@ -11,7 +11,7 @@ export async function user(): Promise<User> {
 	return res.json();
 }
 
-export async function login(credentials: Credentials): Promise<User> {
+export async function login(credentials: Credentials): Promise<{ message: string }> {
 	const res = await fetch('/api/login', {
 		method: 'POST',
 		body: `username=${credentials.email}&password=${credentials.password}`,
@@ -20,7 +20,7 @@ export async function login(credentials: Credentials): Promise<User> {
 		},
 	});
 	// реджектим промис если вернулся ошибочный статус
-	if (res.status >= 400) {
+	if (!res.ok) {
 		// достаем текст ошибки из ответа
 		const { message }: { message: string } = await res.json();
 		throw new Error(message);
@@ -42,11 +42,20 @@ export async function register(data: RegisterData): Promise<User> {
 		field: string;
 		rejectedValue: string;
 	}
-	if (res.status >= 400) {
+	if (res.status !== 201) {
 		const { errors }: { errors: Error[] } = await res.json();
 		errors.forEach((err) => {
 			throw new Error(`${err.field} ${err.rejectedValue} ${err.message}`);
 		});
+	}
+	return res.json();
+}
+
+export async function corfirmEmail(confirmCode: string): Promise<User> {
+	const res = await fetch(`api/users/confirm/${confirmCode}`);
+	if (!res.ok) {
+		const { message }: { message: string } = await res.json();
+		throw new Error(message);
 	}
 	return res.json();
 }
