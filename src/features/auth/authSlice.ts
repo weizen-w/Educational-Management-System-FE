@@ -11,7 +11,7 @@ const initialState: AuthState = {
 	registerFormError: undefined,
 };
 
-export const getUser = createAsyncThunk('api/users/my/profile', () => api.user());
+export const getUser = createAsyncThunk('api/users/profile', () => api.user());
 
 export const login = createAsyncThunk('login', async (credentials: Credentials) => {
 	if (!credentials.email.trim() || !credentials.password.trim()) {
@@ -28,6 +28,10 @@ export const register = createAsyncThunk('api/register', async (data: RegisterDa
 	// 	throw new Error('Не все поля заполнены');
 	// }
 	return api.register(data);
+});
+
+export const corfirmEmail = createAsyncThunk('cofirmEmail', async (corfirmCode: string) => {
+	return api.corfirmEmail(corfirmCode);
 });
 
 export const logout = createAsyncThunk('logout', api.logout);
@@ -51,7 +55,8 @@ const authSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(getUser.rejected, (state) => {
-				state.authChecked = true;
+				state.authChecked = false;
+				state.user = undefined;
 			})
 			.addCase(login.fulfilled, (state) => {
 				state.loginFormError = undefined;
@@ -61,8 +66,8 @@ const authSlice = createSlice({
 				state.loginFormError = action.error.message;
 			})
 			.addCase(logout.fulfilled, (state) => {
+				state.authChecked = false;
 				state.user = undefined;
-				state.authChecked = true;
 			})
 			.addCase(register.fulfilled, (state, action) => {
 				state.user = action.payload;
@@ -70,6 +75,9 @@ const authSlice = createSlice({
 			})
 			.addCase(register.rejected, (state, action) => {
 				state.registerFormError = action.error.message;
+			})
+			.addCase(corfirmEmail.fulfilled, (state, action) => {
+				state.user = action.payload;
 			});
 	},
 });
