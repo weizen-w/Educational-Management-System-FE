@@ -8,9 +8,17 @@ export async function getAll(): Promise<User[]> {
 export async function updateUser(updatedUser: User): Promise<User> {
 	const res = await fetch(`/api/users/${updatedUser.id}`, {
 		method: 'PUT',
-		body: JSON.stringify(updatedUser),
+		body: JSON.stringify({
+			firstName: updatedUser.firstName,
+			lastName: updatedUser.lastName,
+			email: updatedUser.email,
+			role: updatedUser.role,
+			state: updatedUser.state,
+			photoLink: updatedUser.photoLink,
+		}),
 		headers: {
 			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 	});
 

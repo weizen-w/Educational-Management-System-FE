@@ -31,7 +31,7 @@ function Navbar(): JSX.Element {
 				user.role === 'ADMIN' ? (
 					<>
 						<NavLink to="/admin/users">Пользователи</NavLink>
-						<NavLink to="/admin/tasks">Задачи всех пользователей</NavLink>
+					 	<NavLink to="/admin/tasks">Задачи всех пользователей</NavLink>
 					</>
 				) : (
 					<NavLink to="/tasks">Задачи текущего пользователя</NavLink>

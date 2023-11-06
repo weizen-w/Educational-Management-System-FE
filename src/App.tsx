@@ -37,7 +37,6 @@ function App(): JSX.Element {
 					<Route path="/auth/register" element={<Register />} />
 					<Route path="/admin/tasks" element={<AdminCabinet />} />
 					<Route path="/admin/users" element={<UsersList />} />
-
 				</Route>
 			</Routes>
 		</HashRouter>
