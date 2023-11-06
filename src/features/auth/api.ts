@@ -34,6 +34,7 @@ export async function register(data: RegisterData): Promise<User> {
 		body: JSON.stringify(data),
 		headers: {
 			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 	});
 	interface Error {

@@ -11,12 +11,21 @@ function Register(): JSX.Element {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordRepeat, setPasswordRepeat] = useState('');
+	const [passwordMismatchError, setPasswordMismatchError] = useState(''); // Локальное состояние для ошибки
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 
 	const handleSubmit = useCallback(
 		async (event: React.FormEvent) => {
 			event.preventDefault();
+			if (password !== passwordRepeat) {
+				// Если пароли не совпадают, показать ошибку
+				setPasswordMismatchError('Пароли не совпадают');
+				return;
+			} else {
+				setPasswordMismatchError(''); // Сбросить ошибку, если пароли совпадают
+			}
+
 			const dispatchResult = await dispatch(
 				register({
 					email,
@@ -48,16 +57,8 @@ function Register(): JSX.Element {
 		},
 		[dispatch]
 	);
-
-	const handlePasswordRepeatChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setPasswordRepeat(event.target.value);
-			dispatch(resetRegisterFormError());
-		},
-		[dispatch]
-	);
-
-	const handleFirstNameChange = useCallback(
+  
+  const handleFirstNameChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			setFirstName(event.target.value);
 			dispatch(resetRegisterFormError());
@@ -81,19 +82,26 @@ function Register(): JSX.Element {
 					{error}
 				</div>
 			)}
+			{passwordMismatchError && (
+				<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
+					{passwordMismatchError}
+				</div>
+			)}
+
 			<div className="mb-3">
-				<label htmlFor="name-input" className="form-label">
-					Email
+				<label htmlFor="email" className="form-label">
+					email
 				</label>
 				<input
 					type="text"
 					className={`form-control ${error ? 'is-invalid' : ''}`}
-					id="name-input"
-					name="username"
+					id="email"
+					name="email"
 					value={email}
 					onChange={handleEmailChange}
 				/>
 			</div>
+
 			<div className="mb-3">
 				<label htmlFor="password-input" className="form-label">
 					Password
@@ -117,9 +125,10 @@ function Register(): JSX.Element {
 					id="password-repeat-input"
 					name="passwordRepeat"
 					value={passwordRepeat}
-					onChange={handlePasswordRepeatChange}
+					onChange={(e) => setPasswordRepeat(e.target.value)} // Обновление состояния повторного ввода пароля
 				/>
 			</div>
+
 			<div className="mb-3">
 				<label htmlFor="first-name-input" className="form-label">
 					Enter your name
