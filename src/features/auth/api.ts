@@ -4,7 +4,7 @@ import User from './types/User';
 
 export async function user(): Promise<User> {
 	const res = await fetch('/api/users/profile');
-	if (res.status >= 400) {
+	if (!res.ok) {
 		const { message }: { message: string } = await res.json();
 		throw new Error(message);
 	}
