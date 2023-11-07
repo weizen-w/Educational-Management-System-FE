@@ -13,7 +13,6 @@ import { useEffect } from 'react';
 import { getUser } from './features/auth/authSlice';
 import Confirmation from './features/auth/Confirmation';
 
-
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
@@ -39,7 +38,7 @@ function App(): JSX.Element {
 					<Route path="/" element={<Layout />}>
 						<Route path="/account/profile" element={<Profile />} />
 						<Route path="/account/courses" element={<Courses />} />
-            <Route path="/account/users" element={<UsersList />} />
+						<Route path="/account/users" element={<UsersList />} />
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : roleUser === 'TEACHER' ? (

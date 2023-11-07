@@ -57,8 +57,8 @@ function Register(): JSX.Element {
 		},
 		[dispatch]
 	);
-  
-  const handleFirstNameChange = useCallback(
+
+	const handleFirstNameChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			setFirstName(event.target.value);
 			dispatch(resetRegisterFormError());

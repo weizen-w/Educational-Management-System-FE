@@ -75,6 +75,7 @@ export default function Courses(): JSX.Element {
 				);
 				setFormFields(initStateFormFields);
 			} catch (err) {
+				// eslint-disable-next-line no-console
 				console.error(err);
 			}
 		},
@@ -135,6 +136,7 @@ export default function Courses(): JSX.Element {
 				}
 				setIsCreate(false);
 			} catch (err) {
+				// eslint-disable-next-line no-console
 				console.error(err);
 			}
 		},

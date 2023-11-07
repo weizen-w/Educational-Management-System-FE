@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 import { selectUsers } from './selectors';
-import { loadUsers, updateUser } from './usersSlice';
+import { loadUsers } from './usersSlice';
 import User from './types/User';
 import UserEditForm from './UserEditForm';
 
