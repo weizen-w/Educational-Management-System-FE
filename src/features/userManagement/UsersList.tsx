@@ -15,7 +15,7 @@ export default function UsersList(): JSX.Element {
 
 	return (
 		<div>
-			<h1>Список Пользователей</h1>
+			<h1>Users</h1>
 			<ul>
 				{users?.map((user: User) => (
 					<li key={user.id}>

@@ -20,7 +20,7 @@ function Register(): JSX.Element {
 			event.preventDefault();
 			if (password !== passwordRepeat) {
 				// Если пароли не совпадают, показать ошибку
-				setPasswordMismatchError('Пароли не совпадают');
+				setPasswordMismatchError('Password mismatch');
 				return;
 			} else {
 				setPasswordMismatchError(''); // Сбросить ошибку, если пароли совпадают
@@ -35,8 +35,7 @@ function Register(): JSX.Element {
 				})
 			);
 			if (register.fulfilled.match(dispatchResult)) {
-				dispatch(login({ email, password }));
-				navigate('/');
+				navigate('/auth/login'); // TODO
 			}
 		},
 		[dispatch, email, navigate, password, firstName, lastName]
