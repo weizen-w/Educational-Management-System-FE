@@ -3,6 +3,7 @@ import authSlice from '../features/auth/authSlice';
 import usersReduser from '../features/userManagement/usersSlice';
 import coursesSlice from '../features/courses/coursesSlice';
 import groupsSlice from '../features/groups/groupsSlice';
+import lessonsSlice from '../features/lessons/lessonsSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
 		users: usersReduser,
 		courses: coursesSlice,
 		groups: groupsSlice,
+		lessons: lessonsSlice,
 	},
 });
 

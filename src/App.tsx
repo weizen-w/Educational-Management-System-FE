@@ -45,6 +45,8 @@ function App(): JSX.Element {
 						<Route path="/account/courses/add" element={<CourseCreate />} />
 						<Route path="/account/groups" element={<Groups />} />
 						<Route path="/account/groups/add" element={<GroupCreate />} />
+						<Route path="/account/groups/lessons" element={<Groups />} />
+						<Route path="/account/groups/lessons/add" element={<GroupCreate />} />
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : roleUser === 'TEACHER' ? (
