@@ -19,6 +19,7 @@
 		"@mui/icons-material": "^5.14.16",
 		"@mui/material": "^5.14.17",
 		"@reduxjs/toolkit": "^1.9.7",
+		"bootstrap-icons": "^1.11.1",
 		"js-cookie": "^3.0.5",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

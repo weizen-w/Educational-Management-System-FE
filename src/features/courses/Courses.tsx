@@ -26,15 +26,21 @@ export default function Courses(): JSX.Element {
 			<button className="btn btn-primary" onClick={() => navigate('/account/courses/add')}>
 				Create new course
 			</button>
-			<ul>
-				{courses?.map((course) => (
-					<li key={course.id}>
-						<div>
-							<CourseEdit course={course} />
-						</div>
-					</li>
-				))}
-			</ul>
+			<table className="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Course name</th>
+						<th scope="col">In archive</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{courses?.map((course) => (
+						<CourseEdit key={course.id} course={course} />
+					))}
+				</tbody>
+			</table>
 		</>
 	);
 }

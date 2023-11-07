@@ -30,15 +30,22 @@ export default function Groups(): JSX.Element {
 			<button className="btn btn-primary" onClick={() => navigate('/account/groups/add')}>
 				Create new group
 			</button>
-			<ul>
-				{groups?.map((group) => (
-					<li key={group.id}>
-						<div>
-							<GroupEdit group={group} courses={courses} />
-						</div>
-					</li>
-				))}
-			</ul>
+			<table className="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Group name</th>
+						<th scope="col">Course name</th>
+						<th scope="col">In archive</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{groups?.map((group) => (
+						<GroupEdit key={group.id} group={group} courses={courses} />
+					))}
+				</tbody>
+			</table>
 		</>
 	);
 }
