@@ -12,6 +12,8 @@ import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import { useEffect } from 'react';
 import { getUser } from './features/auth/authSlice';
 import Confirmation from './features/auth/Confirmation';
+import CourseCreate from './features/courses/CourseCreate';
+import Groups from './features/groups/Groups';
 
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -37,8 +39,10 @@ function App(): JSX.Element {
 				{roleUser === 'ADMIN' ? (
 					<Route path="/" element={<Layout />}>
 						<Route path="/account/profile" element={<Profile />} />
-						<Route path="/account/courses" element={<Courses />} />
 						<Route path="/account/users" element={<UsersList />} />
+						<Route path="/account/courses" element={<Courses />} />
+						<Route path="/account/courses/add" element={<CourseCreate />} />
+						<Route path="/account/groups" element={<Groups />} />
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : roleUser === 'TEACHER' ? (

@@ -32,8 +32,9 @@ function Navbar(): JSX.Element {
 					{user?.role === 'ADMIN' && (
 						<>
 							<NavLink to="/account/profile">Personal information</NavLink>
-							<NavLink to="/account/users">Course management</NavLink>
-							<NavLink to="/account/courses">Course management</NavLink>
+							<NavLink to="/account/users">Users management</NavLink>
+							<NavLink to="/account/courses">Courses management</NavLink>
+							<NavLink to="/account/groups">Groups management</NavLink>
 						</>
 					)}
 
