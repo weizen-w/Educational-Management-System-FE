@@ -1,15 +1,15 @@
 import ErrorResponse from '../errors/ErrorResponse';
-import Course from './types/Course';
+import Group from './types/Group';
 
-export async function getAll(): Promise<Course[]> {
-	const result = await fetch(`/api/courses/`);
+export async function getAll(): Promise<Group[]> {
+	const result = await fetch(`/api/groups/`);
 	return result.json();
 }
 
-export async function updateCourse(id: number, course: Course): Promise<Course> {
-	const result = await fetch(`/api/courses/${id}`, {
+export async function updateGroup(id: number, group: Group): Promise<Group> {
+	const result = await fetch(`/api/groups/${id}`, {
 		method: 'PUT',
-		body: JSON.stringify(course),
+		body: JSON.stringify(group),
 		headers: {
 			'Content-Type': 'application/json',
 		},
@@ -26,10 +26,10 @@ export async function updateCourse(id: number, course: Course): Promise<Course> 
 	return result.json();
 }
 
-export async function addCourse(name: string): Promise<Course> {
-	const result = await fetch(`/api/courses`, {
+export async function addGroup(group: Group): Promise<Group> {
+	const result = await fetch(`/api/groups`, {
 		method: 'POST',
-		body: JSON.stringify({ name }),
+		body: JSON.stringify(group),
 		headers: {
 			'Content-Type': 'application/json',
 		},

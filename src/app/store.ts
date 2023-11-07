@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import authSlice from '../features/auth/authSlice';
 import usersReduser from '../features/userManagement/usersSlice';
 import coursesSlice from '../features/courses/coursesSlice';
+import groupsSlice from '../features/groups/groupsSlice';
 
 export const store = configureStore({
 	reducer: {
 		auth: authSlice,
 		users: usersReduser,
 		courses: coursesSlice,
+		groups: groupsSlice,
 	},
 });
 
