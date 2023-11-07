@@ -90,7 +90,7 @@ export default function CourseCreate(): JSX.Element {
 
 	return (
 		<div>
-			<form className="auth-form" onSubmit={handleSubmitCreate}>
+			<form className="auth-form row g-1" onSubmit={handleSubmitCreate}>
 				{formFields.nameError && (
 					<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
 						{formFields.nameError}
@@ -107,18 +107,20 @@ export default function CourseCreate(): JSX.Element {
 						onChange={handleInputChange}
 					/>
 				</div>
-				<button type="submit" className="btn btn-success">
-					Create
-				</button>
-				<button
-					className="btn btn-danger"
-					onClick={() => {
-						setFormFields(initStateFormFields);
-						navigate('/account/courses');
-					}}
-				>
-					Cancel
-				</button>
+				<div className="col-md-2">
+					<button type="submit" className="btn btn-success">
+						Create
+					</button>
+					<button
+						className="btn btn-danger"
+						onClick={() => {
+							setFormFields(initStateFormFields);
+							navigate('/account/courses');
+						}}
+					>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);

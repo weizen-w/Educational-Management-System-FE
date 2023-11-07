@@ -4,8 +4,6 @@ import Course from './types/Course';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { resetCourseError, updateCourse } from './coursesSlice';
 import { selectCourseError } from './selectors';
-import EditIcon from '@mui/icons-material/Edit';
-import ArchiveIcon from '@mui/icons-material/Archive';
 
 interface Props {
 	course: Course;
@@ -15,18 +13,28 @@ export default function CourseEdit(props: Props): JSX.Element {
 	const { course } = props;
 	const error = useAppSelector(selectCourseError);
 	const dispatch = useAppDispatch();
-	const initStateFormFields = {
+	const [newCourse, setNewCourse] = useState<Course>({
 		id: 0,
-		name: '',
-		archived: false,
+		name: course.name,
+		archived: course.archived,
+	});
+	const [errorsObj, setErrorsObj] = useState({
 		idError: '',
 		nameError: '',
 		archivedError: '',
-	};
-	const [formFields, setFormFields] = useState(initStateFormFields);
+	});
 
 	const handleEditClick = (newId: number): void => {
-		setFormFields({ ...formFields, id: newId });
+		setNewCourse({ ...newCourse, id: newId });
+	};
+
+	const handleCancel = (): void => {
+		setNewCourse({
+			id: 0,
+			name: course.name,
+			archived: course.archived,
+		});
+		handleEditClick(0);
 	};
 
 	const handleSubmitUpdate = useCallback(
@@ -34,38 +42,37 @@ export default function CourseEdit(props: Props): JSX.Element {
 			e.preventDefault();
 
 			let hasError = false;
-			setFormFields((prevFormFields) => ({
-				...prevFormFields,
+			setErrorsObj({
 				idError: '',
 				nameError: '',
 				archivedError: '',
-			}));
+			});
 
-			const { id, name, archived } = formFields;
+			const { id, name, archived } = newCourse;
 			if (id < 1) {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					idError: 'ID cannot be 0 or negative',
 				}));
 				hasError = true;
 			}
 			if (!name.trim()) {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					nameError: 'The name cannot be empty or only spaces',
 				}));
 				hasError = true;
 			}
 			if (name.length > 200) {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					nameError: 'The name cannot be more than 200 characters',
 				}));
 				hasError = true;
 			}
 			if (typeof archived !== 'boolean') {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					archivedError: 'The archive field can only be a boolean',
 				}));
 				hasError = true;
@@ -76,84 +83,104 @@ export default function CourseEdit(props: Props): JSX.Element {
 
 			try {
 				await dispatch(
-					updateCourse({ id: formFields.id, name: formFields.name, archived: formFields.archived })
+					updateCourse({ id: course.id, name: newCourse.name, archived: course.archived })
 				);
-				setFormFields(initStateFormFields);
+				handleEditClick(0);
+				setErrorsObj({
+					idError: '',
+					nameError: '',
+					archivedError: '',
+				});
 			} catch (err) {
 				// eslint-disable-next-line no-console
 				console.error(err);
 			}
 		},
-		[dispatch, formFields]
+		[dispatch, errorsObj, newCourse]
 	);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		dispatch(resetCourseError());
 		const { name: key, value } = e.target;
-		setFormFields((prevFormFields) => ({
-			...prevFormFields,
+		setNewCourse((prevNewCourse) => ({
+			...prevNewCourse,
 			[key]: value,
 		}));
 	};
 
 	return (
-		<div>
-			{formFields.id !== course.id ? (
-				<>
-					<span>
-						<b>Name: </b>
-						{course.name}
-					</span>
-					<span>
-						<b>, is archived: </b>
-						{course.archived.toString()}
-					</span>
-					<EditIcon onClick={() => handleEditClick(course.id)} />
-					<ArchiveIcon
-						onClick={() => {
-							dispatch(
-								updateCourse({
-									id: course.id,
-									name: course.name,
-									archived: !course.archived,
-								})
-							);
-						}}
-					/>
-				</>
-			) : (
-				<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>
-					<div className="col-md-2">
-						<input
-							type="text"
-							className={`form-control ${error ? 'is-invalid' : ''}`}
-							name="name"
-							defaultValue={course.name}
-							placeholder={course.name}
-							onChange={handleInputChange}
-						/>
-						{formFields.nameError && (
-							<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
-								{formFields.nameError}
-							</div>
-						)}
-					</div>
-					<div className="col-md-1">
-						<button type="submit" className="btn btn-success">
-							Save
+		<>
+			{newCourse.id !== course.id ? (
+				<tr>
+					<th scope="row">{course.id}</th>
+					<td>{course.name}</td>
+					<td>{course.archived.toString()}</td>
+					<td>
+						<button
+							type="button"
+							className="btn btn-outline-dark"
+							onClick={() => handleEditClick(course.id)}
+						>
+							Edit
 						</button>
 						<button
-							className="btn btn-danger"
+							type="button"
+							className="btn btn-secondary"
 							onClick={() => {
-								setFormFields(initStateFormFields);
-								handleEditClick(0);
+								dispatch(
+									updateCourse({
+										id: course.id,
+										name: course.name,
+										archived: !course.archived,
+									})
+								);
 							}}
 						>
-							Cancel
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="currentColor"
+								className="bi bi-archive"
+								viewBox="0 0 16 16"
+							>
+								<path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+							</svg>
+							Archiv
 						</button>
-					</div>
-				</form>
+					</td>
+				</tr>
+			) : (
+				<tr>
+					<td colSpan={4}>
+						<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>
+							<div className="col-md-2">
+								<input
+									type="text"
+									className={`form-control ${error ? 'is-invalid' : ''}`}
+									name="name"
+									value={newCourse.name}
+									placeholder={course.name}
+									onChange={handleInputChange}
+								/>
+								{errorsObj.nameError && (
+									<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
+										{errorsObj.nameError}
+									</div>
+								)}
+							</div>
+							<div className="col-md-1">
+								<button type="submit" className="btn btn-outline-success">
+									Save
+								</button>
+								<button className="btn btn-outline-danger" onClick={handleCancel}>
+									Cancel
+								</button>
+							</div>
+						</form>
+					</td>
+				</tr>
 			)}
-		</div>
+		</>
 	);
 }
