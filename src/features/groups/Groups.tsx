@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectError, selectGroups } from './selectors';
+import { selectGroupError, selectGroups } from './selectors';
 import { loadGroups } from './groupsSlice';
-import { selectCourses } from '../courses/selectors';
-import Course from '../courses/types/Course';
+import GroupEdit from './GroupEdit';
 import { loadCourses } from '../courses/coursesSlice';
+import { selectCourses } from '../courses/selectors';
+import { useNavigate } from 'react-router-dom';
 
 export default function Groups(): JSX.Element {
+	const navigate = useNavigate();
 	const groups = useAppSelector(selectGroups);
 	const courses = useAppSelector(selectCourses);
-	const error = useAppSelector(selectError);
+	const error = useAppSelector(selectGroupError);
 	const dispatch = useAppDispatch();
-
-	const getCourse = (findId: number): Course | undefined => courses.find((c) => c.id === findId);
 
 	useEffect(() => {
 		dispatch(loadGroups());
@@ -27,14 +27,14 @@ export default function Groups(): JSX.Element {
 					{error}
 				</div>
 			)}
+			<button className="btn btn-primary" onClick={() => navigate('/account/groups/add')}>
+				Create new group
+			</button>
 			<ul>
 				{groups?.map((group) => (
 					<li key={group.id}>
 						<div>
-							<b>Name: </b>
-							{group.name};<b> Course: </b>
-							{getCourse(group.courseId)?.name};<b> is archived: </b>
-							{group.archived.toString()}
+							<GroupEdit group={group} courses={courses} />
 						</div>
 					</li>
 				))}

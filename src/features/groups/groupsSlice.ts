@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import GroupsState from './types/GroupsState';
 import * as api from './api';
+import Group from './types/Group';
 
 const initialState: GroupsState = {
 	groups: [],
@@ -8,6 +9,14 @@ const initialState: GroupsState = {
 };
 
 export const loadGroups = createAsyncThunk('groups/loadGroups', () => api.getAll());
+
+export const updateGroup = createAsyncThunk('groups/updateGroup', async (group: Group) =>
+	api.updateGroup(group.id, group)
+);
+
+export const createGroup = createAsyncThunk('groups/createGroup', async (group: Group) =>
+	api.addGroup(group)
+);
 
 const groupsSlice = createSlice({
 	name: 'groups',
@@ -23,6 +32,20 @@ const groupsSlice = createSlice({
 				state.groups = action.payload;
 			})
 			.addCase(loadGroups.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(updateGroup.fulfilled, (state, action) => {
+				state.groups = state.groups.map((group) =>
+					group.id === action.payload.id ? action.payload : group
+				);
+			})
+			.addCase(updateGroup.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(createGroup.fulfilled, (state, action) => {
+				state.groups.push(action.payload);
+			})
+			.addCase(createGroup.rejected, (state, action) => {
 				state.error = action.error.message;
 			});
 	},

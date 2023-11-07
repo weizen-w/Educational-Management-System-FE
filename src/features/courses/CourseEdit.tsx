@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useCallback, useState } from 'react';
 import Course from './types/Course';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { resetCourseError, updateCourse } from './coursesSlice';
-import { useSelector } from 'react-redux';
 import { selectCourseError } from './selectors';
 import EditIcon from '@mui/icons-material/Edit';
 import ArchiveIcon from '@mui/icons-material/Archive';
@@ -14,7 +13,7 @@ interface Props {
 
 export default function CourseEdit(props: Props): JSX.Element {
 	const { course } = props;
-	const error = useSelector(selectCourseError);
+	const error = useAppSelector(selectCourseError);
 	const dispatch = useAppDispatch();
 	const initStateFormFields = {
 		id: 0,

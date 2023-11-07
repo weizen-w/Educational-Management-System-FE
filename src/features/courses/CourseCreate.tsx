@@ -1,13 +1,12 @@
-import { useSelector } from 'react-redux';
 import { selectCourseError } from './selectors';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useCallback, useState } from 'react';
 import { createCourse, resetCourseError } from './coursesSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function CourseCreate(): JSX.Element {
 	const navigate = useNavigate();
-	const error = useSelector(selectCourseError);
+	const error = useAppSelector(selectCourseError);
 	const dispatch = useAppDispatch();
 	const initStateFormFields = {
 		id: 0,

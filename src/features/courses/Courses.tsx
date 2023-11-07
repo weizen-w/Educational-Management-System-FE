@@ -23,20 +23,18 @@ export default function Courses(): JSX.Element {
 					{error}
 				</div>
 			)}
-			<>
-				<button className="btn btn-primary" onClick={() => navigate('/account/courses/add')}>
-					Create new course
-				</button>
-				<ul>
-					{courses?.map((course) => (
-						<li key={course.id}>
-							<div>
-								<CourseEdit course={course} />
-							</div>
-						</li>
-					))}
-				</ul>
-			</>
+			<button className="btn btn-primary" onClick={() => navigate('/account/courses/add')}>
+				Create new course
+			</button>
+			<ul>
+				{courses?.map((course) => (
+					<li key={course.id}>
+						<div>
+							<CourseEdit course={course} />
+						</div>
+					</li>
+				))}
+			</ul>
 		</>
 	);
 }
