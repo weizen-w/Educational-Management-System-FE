@@ -5,7 +5,6 @@ import { selectGroupError } from './selectors';
 import { useCallback, useState } from 'react';
 import { resetGroupError, updateGroup } from './groupsSlice';
 import Course from '../courses/types/Course';
-import { NavLink, useNavigate } from 'react-router-dom';
 
 interface Props {
 	group: Group;
