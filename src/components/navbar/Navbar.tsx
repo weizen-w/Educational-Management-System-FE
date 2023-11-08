@@ -35,6 +35,7 @@ function Navbar(): JSX.Element {
 							<NavLink to="/account/users">Users management</NavLink>
 							<NavLink to="/account/courses">Courses management</NavLink>
 							<NavLink to="/account/groups">Groups management</NavLink>
+							<NavLink to="/account/modules">Moduls management</NavLink>
 						</>
 					)}
 
