@@ -5,6 +5,7 @@ import { selectGroupError } from './selectors';
 import { useCallback, useState } from 'react';
 import { resetGroupError, updateGroup } from './groupsSlice';
 import Course from '../courses/types/Course';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
 	group: Group;
@@ -13,6 +14,7 @@ interface Props {
 
 export default function GroupEdit(props: Props): JSX.Element {
 	const { group, courses } = props;
+	const navigate = useNavigate();
 	const error = useAppSelector(selectGroupError);
 	const dispatch = useAppDispatch();
 	const [newGroup, setNewGroup] = useState<Group>({
@@ -134,7 +136,9 @@ export default function GroupEdit(props: Props): JSX.Element {
 			{newGroup.id !== group.id ? (
 				<tr>
 					<th scope="row">{group.id}</th>
-					<td>{group.name}</td>
+					<td onClick={() => navigate('/account/groups/lessons')} style={{ cursor: 'pointer' }}>
+						{group.name}
+					</td>
 					<td>{getCourse(group.courseId)?.name}</td>
 					<td>{group.archived.toString()}</td>
 					<td>
@@ -170,6 +174,27 @@ export default function GroupEdit(props: Props): JSX.Element {
 								<path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
 							</svg>
 							Archiv
+						</button>
+						<button
+							type="button"
+							className="btn btn-outline-success"
+							onClick={() => navigate('/account/groups/lessons')}
+							style={{ marginLeft: '10px' }}
+						>
+							To lessons
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="currentColor"
+								className="bi bi-arrow-right-short"
+								viewBox="0 0 16 16"
+							>
+								<path
+									fillRule="evenodd"
+									d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+								/>
+							</svg>
 						</button>
 					</td>
 				</tr>

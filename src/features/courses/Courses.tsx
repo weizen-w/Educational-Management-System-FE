@@ -36,9 +36,12 @@ export default function Courses(): JSX.Element {
 					</tr>
 				</thead>
 				<tbody>
-					{courses?.map((course) => (
-						<CourseEdit key={course.id} course={course} />
-					))}
+					{courses
+						.slice()
+						?.sort((a, b) => a.id - b.id)
+						.map((course) => (
+							<CourseEdit key={course.id} course={course} />
+						))}
 				</tbody>
 			</table>
 		</>
