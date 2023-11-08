@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import LessonsState from './types/LessonsState';
 import * as api from './api';
-import Lesson from './types/Lesson';
+import LessonDto from './types/LessonDto';
 
 const initialState: LessonsState = {
 	lessons: [],
@@ -12,16 +12,16 @@ export const loadLessons = createAsyncThunk('lessons/loadLessons', async (id: nu
 	api.getAllbyGroup(id)
 );
 
-export const updateLessons = createAsyncThunk('lessons/updateLessons', async (lesson: Lesson) => {
+export const updateLesson = createAsyncThunk('lessons/updateLessons', async (lesson: LessonDto) => {
 	// TODO groupId by LessonDto (Backend)
-	const updatedLesson = await api.updateLesson(lesson.groupId, lesson);
-	return updatedLesson;
+	const upLesson = await api.updateLesson(lesson.groupId, lesson);
+	return upLesson;
 });
 
-export const createLessons = createAsyncThunk('lessons/createLessons', async (lesson: Lesson) => {
+export const createLesson = createAsyncThunk('lessons/createLessons', async (lesson: LessonDto) => {
 	// TODO groupId by LessonDto (Backend)
-	const createLesson = await api.addLesson(lesson.groupId, lesson);
-	return createLesson;
+	const crLesson = await api.addLesson(lesson.groupId, lesson);
+	return crLesson;
 });
 
 const lessonsSlice = createSlice({
@@ -40,18 +40,18 @@ const lessonsSlice = createSlice({
 			.addCase(loadLessons.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
-			.addCase(updateLessons.fulfilled, (state, action) => {
+			.addCase(updateLesson.fulfilled, (state, action) => {
 				state.lessons = state.lessons.map((lesson) =>
-					lesson.lessonId === action.payload.lessonId ? action.payload : lesson
+					lesson.id === action.payload.id ? action.payload : lesson
 				);
 			})
-			.addCase(updateLessons.rejected, (state, action) => {
+			.addCase(updateLesson.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
-			.addCase(createLessons.fulfilled, (state, action) => {
+			.addCase(createLesson.fulfilled, (state, action) => {
 				state.lessons.push(action.payload);
 			})
-			.addCase(createLessons.rejected, (state, action) => {
+			.addCase(createLesson.rejected, (state, action) => {
 				state.error = action.error.message;
 			});
 	},

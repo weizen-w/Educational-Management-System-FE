@@ -5,6 +5,7 @@ import { selectGroupError } from './selectors';
 import { useCallback, useState } from 'react';
 import { resetGroupError, updateGroup } from './groupsSlice';
 import Course from '../courses/types/Course';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 interface Props {
 	group: Group;
@@ -13,6 +14,7 @@ interface Props {
 
 export default function GroupEdit(props: Props): JSX.Element {
 	const { group, courses } = props;
+	const navigate = useNavigate();
 	const error = useAppSelector(selectGroupError);
 	const dispatch = useAppDispatch();
 	const [newGroup, setNewGroup] = useState<Group>({
@@ -134,7 +136,9 @@ export default function GroupEdit(props: Props): JSX.Element {
 			{newGroup.id !== group.id ? (
 				<tr>
 					<th scope="row">{group.id}</th>
-					<td>{group.name}</td>
+					<td onClick={() => navigate('/account/groups/lessons')} style={{ cursor: 'pointer' }}>
+						{group.name}
+					</td>
 					<td>{getCourse(group.courseId)?.name}</td>
 					<td>{group.archived.toString()}</td>
 					<td>
