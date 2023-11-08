@@ -1,19 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLessonError, selectLessons } from './selectors';
 import { useEffect } from 'react';
 import { loadLessons } from './lessonsSlice';
-import Group from '../groups/types/Group';
 import LessonEdit from './LessonEdit';
+import Group from '../groups/types/Group';
+import Lesson from './types/Lesson';
 
-interface Props {
-	group: Group;
-}
-
-export default function Lessons(props: Props): JSX.Element {
-	const { group } = props;
+export default function Lessons(): JSX.Element {
+	const location = useLocation();
+	const state: { group: Group } = location.state;
+	const group: Group = state.group;
 	const navigate = useNavigate();
-	const lessons = useAppSelector(selectLessons);
+	const lessons: Lesson[] = useAppSelector(selectLessons);
 	const error = useAppSelector(selectLessonError);
 	const dispatch = useAppDispatch();
 
@@ -22,8 +21,9 @@ export default function Lessons(props: Props): JSX.Element {
 	}, [dispatch]);
 
 	return (
-		<>
+		<div className="table-responsive">
 			<h1>Lessons</h1>
+			<h4 style={{ textDecoration: 'underline' }}>for group {group.name}</h4>
 			{error && (
 				<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
 					{error}
@@ -35,15 +35,13 @@ export default function Lessons(props: Props): JSX.Element {
 			<table className="table table-hover">
 				<thead>
 					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Title</th>
-						<th scope="col">Description</th>
 						<th scope="col">Type</th>
-						<th scope="col">Teacher</th>
 						<th scope="col">Date</th>
 						<th scope="col">Start time</th>
 						<th scope="col">End time</th>
+						<th scope="col">Teacher</th>
 						<th scope="col">Module</th>
+						<th scope="col">Title</th>
 						<th scope="col">Link to LMS</th>
 						<th scope="col">Link to Zoom</th>
 						<th scope="col">In archive</th>
@@ -52,17 +50,16 @@ export default function Lessons(props: Props): JSX.Element {
 				</thead>
 				<tbody>
 					{lessons
-						.slice()
 						.sort((a, b) => {
 							const dateA = new Date(a.lessonDate).getTime();
 							const dateB = new Date(b.lessonDate).getTime();
 							return dateA - dateB;
 						})
 						.map((lesson) => (
-							<LessonEdit key={lesson.id} group={group} lesson={lesson} />
+							<LessonEdit key={lesson.id} lesson={lesson} />
 						))}
 				</tbody>
 			</table>
-		</>
+		</div>
 	);
 }

@@ -1,4 +1,3 @@
-
 import ErrorResponse from '../errors/ErrorResponse';
 import Module from './types/Module';
 

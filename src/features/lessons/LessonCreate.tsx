@@ -8,6 +8,8 @@ import { createLesson, resetLessonError } from './lessonsSlice';
 import { selectUsers } from '../userManagement/selectors';
 import { loadUsers } from '../userManagement/usersSlice';
 import { LessonType } from './types/LessonType';
+import { selectModules } from '../modules/selectors';
+import { loadModules } from '../modules/modulesSlice';
 
 interface Props {
 	group: Group;

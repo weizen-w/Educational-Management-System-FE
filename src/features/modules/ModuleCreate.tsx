@@ -5,19 +5,14 @@ import { createModule, resetModuleError } from './modulesSlice';
 import { useNavigate } from 'react-router-dom';
 import Module from './types/Module';
 
-interface Props {
-	module: Module;
-}
-
-export default function ModuleCreate(props: Props): JSX.Element {
-	const { module } = props;
-	const navigate = useNavigate();
+export default function ModuleCreate(): JSX.Element {
 	const error = useAppSelector(selectModuleError);
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [newModule, setNewModule] = useState<Module>({
 		id: 0,
-		name: module.name,
-		archived: module.archived,
+		name: '',
+		archived: false,
 	});
 	const [errorsObj, setErrorsObj] = useState({
 		idError: '',
@@ -49,7 +44,7 @@ export default function ModuleCreate(props: Props): JSX.Element {
 			if (id !== 0) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					idError: 'ID invalid',
+					idError: 'Invalid ID',
 				}));
 				hasError = true;
 			}
@@ -92,6 +87,7 @@ export default function ModuleCreate(props: Props): JSX.Element {
 				});
 				navigate('/account/modules');
 			} catch (err) {
+				// eslint-disable-next-line no-console
 				console.error(err);
 			}
 		},

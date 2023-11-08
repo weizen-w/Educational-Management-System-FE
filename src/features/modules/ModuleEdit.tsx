@@ -91,6 +91,7 @@ export default function ModuleEdit(props: Props): JSX.Element {
 					archivedError: '',
 				});
 			} catch (err) {
+				// eslint-disable-next-line no-console
 				console.error(err);
 			}
 		},

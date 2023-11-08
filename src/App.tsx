@@ -15,10 +15,9 @@ import Confirmation from './features/auth/Confirmation';
 import CourseCreate from './features/courses/CourseCreate';
 import Groups from './features/groups/Groups';
 import GroupCreate from './features/groups/GroupCreate';
-import ModuleCreate from './features/modules/ModuleCreate';
 import Modules from './features/modules/Modules';
+import ModuleCreate from './features/modules/ModuleCreate';
 import Lessons from './features/lessons/Lessons';
-import LessonCreate from './features/lessons/LessonCreate';
 
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -52,7 +51,7 @@ function App(): JSX.Element {
 						<Route path="/account/groups" element={<Groups />} />
 						<Route path="/account/groups/add" element={<GroupCreate />} />
 						<Route path="/account/groups/lessons" element={<Lessons />} />
-						<Route path="/account/groups/lessons/add" element={<LessonCreate />} />
+						{/* <Route path="/account/groups/lessons/add" element={<LessonCreate />} /> */}
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : roleUser === 'TEACHER' ? (

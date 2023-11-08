@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ModuleEdit from './ModuleEdit';
-import ModuleCreate from './ModuleCreate';
 import { loadModules } from './modulesSlice';
 import { selectModules, selectModuleError } from './selectors';
 import { useNavigate } from 'react-router-dom';
