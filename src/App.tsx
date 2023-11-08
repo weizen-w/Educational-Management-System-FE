@@ -15,6 +15,8 @@ import Confirmation from './features/auth/Confirmation';
 import CourseCreate from './features/courses/CourseCreate';
 import Groups from './features/groups/Groups';
 import GroupCreate from './features/groups/GroupCreate';
+import ModuleCreate from './features/modules/ModuleCreate';
+import Modules from './features/modules/Modules';
 import Lessons from './features/lessons/Lessons';
 import LessonCreate from './features/lessons/LessonCreate';
 
@@ -45,6 +47,8 @@ function App(): JSX.Element {
 						<Route path="/account/users" element={<UsersList />} />
 						<Route path="/account/courses" element={<Courses />} />
 						<Route path="/account/courses/add" element={<CourseCreate />} />
+						<Route path="/account/modules" element={<Modules />} />
+						<Route path="/account/modules/add" element={<ModuleCreate />} />
 						<Route path="/account/groups" element={<Groups />} />
 						<Route path="/account/groups/add" element={<GroupCreate />} />
 						<Route path="/account/groups/lessons" element={<Lessons />} />
