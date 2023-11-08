@@ -41,9 +41,12 @@ export default function Groups(): JSX.Element {
 					</tr>
 				</thead>
 				<tbody>
-					{groups?.map((group) => (
-						<GroupEdit key={group.id} group={group} courses={courses} />
-					))}
+					{groups
+						.slice()
+						.sort((a, b) => a.id - b.id)
+						.map((group) => (
+							<GroupEdit key={group.id} group={group} courses={courses} />
+						))}
 				</tbody>
 			</table>
 		</>

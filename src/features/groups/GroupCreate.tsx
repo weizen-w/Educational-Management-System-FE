@@ -9,8 +9,8 @@ import { loadCourses } from '../courses/coursesSlice';
 
 export default function GroupCreate(): JSX.Element {
 	const courses = useAppSelector(selectCourses);
-	const navigate = useNavigate();
 	const error = useAppSelector(selectGroupError);
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [newGroup, setNewGroup] = useState<Group>({
 		id: 0,

@@ -3,58 +3,68 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useCallback, useState } from 'react';
 import { createCourse, resetCourseError } from './coursesSlice';
 import { useNavigate } from 'react-router-dom';
+import Course from './types/Course';
 
 export default function CourseCreate(): JSX.Element {
-	const navigate = useNavigate();
 	const error = useAppSelector(selectCourseError);
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const initStateFormFields = {
+	const [newCourse, setNewCourse] = useState<Course>({
 		id: 0,
 		name: '',
 		archived: false,
+	});
+	const [errorsObj, setErrorsObj] = useState({
 		idError: '',
 		nameError: '',
 		archivedError: '',
+	});
+
+	const handleCancel = (): void => {
+		setNewCourse({
+			id: 0,
+			name: '',
+			archived: false,
+		});
+		navigate('/account/courses');
 	};
-	const [formFields, setFormFields] = useState(initStateFormFields);
 
 	const handleSubmitCreate = useCallback(
 		async (e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
 
 			let hasError = false;
-			setFormFields((prevFormFields) => ({
-				...prevFormFields,
+			setErrorsObj({
 				idError: '',
 				nameError: '',
 				archivedError: '',
-			}));
+			});
 
-			const { id, name, archived } = formFields;
+			const { id, name, archived } = newCourse;
 			if (id !== 0) {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					idError: 'Invalid ID',
 				}));
 				hasError = true;
 			}
 			if (!name.trim()) {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					nameError: 'The name cannot be empty or only spaces',
 				}));
 				hasError = true;
 			}
 			if (name.length > 200) {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					nameError: 'The name cannot be more than 200 characters',
 				}));
 				hasError = true;
 			}
 			if (typeof archived !== 'boolean') {
-				setFormFields((prevFormFields) => ({
-					...prevFormFields,
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
 					archivedError: 'The archive field can only be a boolean',
 				}));
 				hasError = true;
@@ -64,26 +74,31 @@ export default function CourseCreate(): JSX.Element {
 			}
 
 			try {
-				await dispatch(createCourse(formFields.name));
-				setFormFields(initStateFormFields);
-				const inputCreateName = document.getElementById('create-name-input');
-				if (inputCreateName instanceof HTMLInputElement) {
-					inputCreateName.value = '';
-				}
+				await dispatch(createCourse(newCourse.name));
+				setNewCourse({
+					id: 0,
+					name: '',
+					archived: false,
+				});
+				setErrorsObj({
+					idError: '',
+					nameError: '',
+					archivedError: '',
+				});
 				navigate('/account/courses');
 			} catch (err) {
 				// eslint-disable-next-line no-console
 				console.error(err);
 			}
 		},
-		[dispatch, formFields]
+		[dispatch, newCourse, errorsObj]
 	);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		dispatch(resetCourseError());
 		const { name: key, value } = e.target;
-		setFormFields((prevFormFields) => ({
-			...prevFormFields,
+		setNewCourse((prevNewCourse) => ({
+			...prevNewCourse,
 			[key]: value,
 		}));
 	};
@@ -91,9 +106,9 @@ export default function CourseCreate(): JSX.Element {
 	return (
 		<div>
 			<form className="auth-form row g-1" onSubmit={handleSubmitCreate}>
-				{formFields.nameError && (
+				{errorsObj.nameError && (
 					<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
-						{formFields.nameError}
+						{errorsObj.nameError}
 					</div>
 				)}
 				<div className="col-md-2">
@@ -111,13 +126,7 @@ export default function CourseCreate(): JSX.Element {
 					<button type="submit" className="btn btn-success">
 						Create
 					</button>
-					<button
-						className="btn btn-danger"
-						onClick={() => {
-							setFormFields(initStateFormFields);
-							navigate('/account/courses');
-						}}
-					>
+					<button className="btn btn-danger" onClick={handleCancel}>
 						Cancel
 					</button>
 				</div>
