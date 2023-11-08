@@ -5,7 +5,7 @@ import { selectGroupError } from './selectors';
 import { useCallback, useState } from 'react';
 import { resetGroupError, updateGroup } from './groupsSlice';
 import Course from '../courses/types/Course';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Props {
 	group: Group;
@@ -14,8 +14,8 @@ interface Props {
 
 export default function GroupEdit(props: Props): JSX.Element {
 	const { group, courses } = props;
-	const navigate = useNavigate();
 	const error = useAppSelector(selectGroupError);
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [newGroup, setNewGroup] = useState<Group>({
 		id: 0,
@@ -136,7 +136,10 @@ export default function GroupEdit(props: Props): JSX.Element {
 			{newGroup.id !== group.id ? (
 				<tr>
 					<th scope="row">{group.id}</th>
-					<td onClick={() => navigate('/account/groups/lessons')} style={{ cursor: 'pointer' }}>
+					<td
+						onClick={() => navigate('/account/groups/lessons', { state: { group } })}
+						style={{ cursor: 'pointer' }}
+					>
 						{group.name}
 					</td>
 					<td>{getCourse(group.courseId)?.name}</td>
@@ -178,23 +181,24 @@ export default function GroupEdit(props: Props): JSX.Element {
 						<button
 							type="button"
 							className="btn btn-outline-success"
-							onClick={() => navigate('/account/groups/lessons')}
 							style={{ marginLeft: '10px' }}
 						>
-							To lessons
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="16"
-								height="16"
-								fill="currentColor"
-								className="bi bi-arrow-right-short"
-								viewBox="0 0 16 16"
-							>
-								<path
-									fillRule="evenodd"
-									d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
-								/>
-							</svg>
+							<Link to={'/account/groups/lessons'} state={{ group }}>
+								To lessons
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									className="bi bi-arrow-right-short"
+									viewBox="0 0 16 16"
+								>
+									<path
+										fillRule="evenodd"
+										d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+									/>
+								</svg>
+							</Link>
 						</button>
 					</td>
 				</tr>

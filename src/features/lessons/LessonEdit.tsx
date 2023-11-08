@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import Group from '../groups/types/Group';
 import Lesson from './types/Lesson';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLessonError } from './selectors';
@@ -8,14 +7,15 @@ import LessonDto from './types/LessonDto';
 import { selectUsers } from '../userManagement/selectors';
 import { LessonType } from './types/LessonType';
 import { loadUsers } from '../userManagement/usersSlice';
+import { selectModules } from '../modules/selectors';
+import { loadModules } from '../modules/modulesSlice';
 
 interface Props {
 	lesson: Lesson;
-	group: Group;
 }
 
 export default function LessonEdit(props: Props): JSX.Element {
-	const { lesson, group } = props;
+	const { lesson } = props;
 	const teachers = useAppSelector(selectUsers);
 	const modules = useAppSelector(selectModules);
 	const error = useAppSelector(selectLessonError);
@@ -62,11 +62,11 @@ export default function LessonEdit(props: Props): JSX.Element {
 			lessonTitle: lesson.lessonTitle,
 			lessonDescription: lesson.lessonDescription,
 			lessonType: lesson.lessonType,
-			teacherId: lesson.teacherId,
+			teacherId: lesson.teacher.id,
 			lessonDate: lesson.lessonDate,
 			startTime: lesson.startTime,
 			endTime: lesson.endTime,
-			moduleId: lesson.moduleId,
+			moduleId: lesson.module.id,
 			linkLms: lesson.linkLms,
 			linkZoom: lesson.linkZoom,
 			archived: lesson.archived,
@@ -246,27 +246,45 @@ export default function LessonEdit(props: Props): JSX.Element {
 
 	return (
 		<>
-			<div>
-				<h3>Groups: </h3>
-				<h4>{group.name}</h4>
-			</div>
 			{newLesson.id !== lesson.id ? (
 				<tr>
-					<th scope="row">{lesson.id}</th>
-					<td>{lesson.lessonTitle}</td>
-					<td>{lesson.lessonDescription}</td>
 					<td>{lesson.lessonType}</td>
-					<td>
-						{lesson.teacher.firstName} {lesson.teacher.lastName}
-					</td>
 					<td>{lesson.lessonDate}</td>
 					<td>{lesson.startTime}</td>
 					<td>{lesson.endTime}</td>
-					<td>{lesson.module.name}</td>
-					<td>{lesson.linkLms}</td>
-					<td>{lesson.linkZoom}</td>
-					<td>{lesson.archived}</td>
 					<td>
+						{lesson.teacher.firstName} {lesson.teacher.lastName}
+					</td>
+					<td>{lesson.module.name}</td>
+					<td>{lesson.lessonTitle}</td>
+					<td
+						style={{
+							maxWidth: '70px',
+							wordWrap: 'break-word',
+							overflow: 'hidden',
+							whiteSpace: 'nowrap',
+							textOverflow: 'ellipsis',
+						}}
+					>
+						<a href={lesson.linkLms} target="_blank" rel="noreferrer">
+							Link to LMS
+						</a>
+					</td>
+					<td
+						style={{
+							maxWidth: '70px',
+							wordWrap: 'break-word',
+							overflow: 'hidden',
+							whiteSpace: 'nowrap',
+							textOverflow: 'ellipsis',
+						}}
+					>
+						<a href={lesson.linkZoom} target="_blank" rel="noreferrer">
+							Link to Zoom
+						</a>
+					</td>
+					<td>{lesson.archived.toString()}</td>
+					<td className="row g-1">
 						<button
 							type="button"
 							className="btn btn-outline-dark"
@@ -278,10 +296,11 @@ export default function LessonEdit(props: Props): JSX.Element {
 							type="button"
 							className="btn btn-secondary"
 							onClick={() => {
+								console.log(lesson);
 								dispatch(
 									updateLesson({
 										id: lesson.id,
-										groupId: lesson.groupId,
+										groupId: lesson.group.id,
 										lessonTitle: lesson.lessonTitle,
 										lessonDescription: lesson.lessonDescription,
 										lessonType: lesson.lessonType,
@@ -316,6 +335,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 					<td colSpan={13}>
 						<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>
 							<div className="col-md-2">
+								<label htmlFor="">Title</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -501,7 +521,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 									</div>
 								)}
 							</div>
-							<div className="col-md-2">
+							<div className="col-md-1 row g-1">
 								<button type="submit" className="btn btn-success">
 									Save
 								</button>
