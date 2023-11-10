@@ -1,30 +1,28 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import LessonDto from './types/LessonDto';
 import Group from '../groups/types/Group';
 import { selectLessonError } from './selectors';
 import { createLesson, resetLessonError } from './lessonsSlice';
-import { selectUsers } from '../userManagement/selectors';
-import { loadUsers } from '../userManagement/usersSlice';
+import { selectUsers } from '../users/selectors';
+import { loadUsers } from '../users/usersSlice';
 import { LessonType } from './types/LessonType';
 import { selectModules } from '../modules/selectors';
 import { loadModules } from '../modules/modulesSlice';
 
-interface Props {
-	group: Group;
-}
-
-export default function LessonCreate(props: Props): JSX.Element {
-	const { group } = props;
+export default function LessonCreate(): JSX.Element {
+	const location = useLocation();
+	const state: { group: Group } = location.state;
+	const group: Group = state.group;
 	const teachers = useAppSelector(selectUsers);
 	const modules = useAppSelector(selectModules);
 	const error = useAppSelector(selectLessonError);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [newLesson, setNewLesson] = useState<LessonDto>({
-		id: 0,
-		groupId: 0,
+		lessonId: 0,
+		groupId: group.id,
 		lessonTitle: '',
 		lessonDescription: '',
 		lessonType: '',
@@ -55,8 +53,8 @@ export default function LessonCreate(props: Props): JSX.Element {
 
 	const handleCancel = (): void => {
 		setNewLesson({
-			id: 0,
-			groupId: 0,
+			lessonId: 0,
+			groupId: group.id,
 			lessonTitle: '',
 			lessonDescription: '',
 			lessonType: '',
@@ -94,7 +92,7 @@ export default function LessonCreate(props: Props): JSX.Element {
 			});
 
 			const {
-				id,
+				lessonId,
 				groupId,
 				lessonTitle,
 				lessonType,
@@ -105,7 +103,7 @@ export default function LessonCreate(props: Props): JSX.Element {
 				moduleId,
 				archived,
 			} = newLesson;
-			if (id !== 0) {
+			if (lessonId !== 0) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
 					idError: 'Invalid ID',
@@ -115,63 +113,70 @@ export default function LessonCreate(props: Props): JSX.Element {
 			if (groupId < 1) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					idError: 'Group ID cannot be 0 or negative',
+					groupIdError: 'Group ID cannot be 0 or negative',
 				}));
 				hasError = true;
 			}
 			if (!lessonTitle.trim()) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					nameError: 'The lesson title cannot be empty or only spaces',
+					lessonTitleError: 'The lesson title cannot be empty or only spaces',
 				}));
 				hasError = true;
 			}
 			if (lessonTitle.length > 50) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					nameError: 'The lesson title cannot be more than 50 characters',
+					lessonTitleError: 'The lesson title cannot be more than 50 characters',
 				}));
 				hasError = true;
 			}
 			if (lessonType.length > 20) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					courseIdError: 'Lesson type cannot be more than 20 characters',
+					lessonTypeError: 'Lesson type cannot be more than 20 characters',
+				}));
+				hasError = true;
+			}
+			if (lessonType.length === 0) {
+				setErrorsObj((prevErrorsObj) => ({
+					...prevErrorsObj,
+					lessonTypeError: 'Lesson type cannot be empty',
 				}));
 				hasError = true;
 			}
 			if (teacherId < 1) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					idError: 'Teacher ID cannot be 0 or negative',
+					teacherIdError: 'Teacher ID cannot be 0 or negative',
 				}));
 				hasError = true;
 			}
-			if (/^\d{4}-\d{2}-\d{2}$/.test(lessonDate)) {
+			if (!/^\d{4}-\d{2}-\d{2}$/.test(lessonDate)) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					archivedError: 'The date does not reflect the format: 2020-12-31',
+					lessonDateError: 'The date does not reflect the format: 2020-12-31',
 				}));
 				hasError = true;
 			}
-			if (/^\d{2}:\d{2}:\d{2}$/.test(startTime)) {
+			if (!/^\d{2}:\d{2}$/.test(startTime)) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					archivedError: 'The start time does not reflect the format: 10:15:30',
+					startTimeError: 'The start time does not reflect the format: 10:15:30',
 				}));
 				hasError = true;
 			}
-			if (/^\d{2}:\d{2}:\d{2}$/.test(endTime)) {
+			if (!/^\d{2}:\d{2}$/.test(endTime)) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					archivedError: 'The end time does not reflect the format: 10:15:30',
+					endTimeError: 'The end time does not reflect the format: 10:15:30',
 				}));
 				hasError = true;
 			}
 			if (moduleId < 1) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					idError: 'Module ID cannot be 0 or negative',
+					moduleIdError: 'Module ID cannot be 0 or negative',
 				}));
 				hasError = true;
 			}
@@ -189,7 +194,7 @@ export default function LessonCreate(props: Props): JSX.Element {
 			try {
 				await dispatch(
 					createLesson({
-						id: 0,
+						lessonId: 0,
 						groupId: group.id,
 						lessonTitle: newLesson.lessonTitle,
 						lessonDescription: newLesson.lessonDescription,
@@ -219,7 +224,7 @@ export default function LessonCreate(props: Props): JSX.Element {
 					linkZoomError: '',
 					archivedError: '',
 				});
-				navigate('/account/groups/lessons');
+				navigate(-1);
 			} catch (err) {
 				// eslint-disable-next-line no-console
 				console.error(err);

@@ -5,7 +5,7 @@ import Login from './features/auth/Login';
 import Register from './features/auth/Register';
 import { selectAuthChecked, selectUser } from './features/auth/selectors';
 import Layout from './components/layouts/Layout';
-import UsersList from './features/userManagement/UsersList';
+import UsersList from './features/users/Users';
 import Courses from './features/courses/Courses';
 import Profile from './features/auth/Profile';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
@@ -18,6 +18,7 @@ import GroupCreate from './features/groups/GroupCreate';
 import Modules from './features/modules/Modules';
 import ModuleCreate from './features/modules/ModuleCreate';
 import Lessons from './features/lessons/Lessons';
+import LessonCreate from './features/lessons/LessonCreate';
 import GroupsAttendance from './features/attendances/GroupsAttendance';
 
 function App(): JSX.Element {
@@ -52,8 +53,8 @@ function App(): JSX.Element {
 						<Route path="/account/groups" element={<Groups />} />
 						<Route path="/account/groups/add" element={<GroupCreate />} />
 						<Route path="/account/groups/lessons" element={<Lessons />} />
+						<Route path="/account/groups/lessons/add" element={<LessonCreate />} />
 						<Route path="/account/groupsAttendance" element={<GroupsAttendance />} />
-						{/* <Route path="/account/groups/lessons/add" element={<LessonCreate />} /> */}
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : roleUser === 'TEACHER' ? (

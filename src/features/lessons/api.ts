@@ -7,8 +7,8 @@ export async function getAllbyGroup(id: number): Promise<Lesson[]> {
 	return result.json();
 }
 
-export async function updateLesson(groupId: number, lesson: LessonDto): Promise<Lesson> {
-	const result = await fetch(`/api/lesson/${groupId}`, {
+export async function updateLesson(lessonId: number, lesson: LessonDto): Promise<Lesson> {
+	const result = await fetch(`/api/lesson/${lessonId}`, {
 		method: 'PUT',
 		body: JSON.stringify(lesson),
 		headers: {

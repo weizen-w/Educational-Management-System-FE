@@ -1,5 +1,5 @@
 export default interface LessonDto {
-	id: number;
+	lessonId: number;
 	groupId: number;
 	lessonTitle: string;
 	lessonDescription: string;

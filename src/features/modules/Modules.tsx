@@ -23,11 +23,9 @@ export default function Modules(): JSX.Element {
 					{error}
 				</div>
 			)}
-
-			<button className="btn btn-primary" onClick={() => navigate('/account/courses/add')}>
-				Create new course
+			<button className="btn btn-primary" onClick={() => navigate('/account/modules/add')}>
+				Create new module
 			</button>
-
 			<table className="table table-hover">
 				<thead>
 					<tr>
