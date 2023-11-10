@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLessonError, selectLessons } from './selectors';
 import { useEffect } from 'react';
@@ -11,17 +11,23 @@ export default function Lessons(): JSX.Element {
 	const location = useLocation();
 	const state: { group: Group } = location.state;
 	const group: Group = state.group;
-	const navigate = useNavigate();
 	const lessons: Lesson[] = useAppSelector(selectLessons);
 	const error = useAppSelector(selectLessonError);
 	const dispatch = useAppDispatch();
+
+	// const sortedLessons = lessons.slice().sort((a, b) => {
+	// 	console.log(lessons);
+	// 	const dateA = new Date(a.lessonDate).getTime();
+	// 	const dateB = new Date(b.lessonDate).getTime();
+	// 	return dateA - dateB;
+	// });
 
 	useEffect(() => {
 		dispatch(loadLessons(group.id));
 	}, [dispatch]);
 
 	return (
-		<div className="table-responsive">
+		<div>
 			<h1>Lessons</h1>
 			<h4 style={{ textDecoration: 'underline' }}>for group {group.name}</h4>
 			{error && (
@@ -29,12 +35,15 @@ export default function Lessons(): JSX.Element {
 					{error}
 				</div>
 			)}
-			<button className="btn btn-primary" onClick={() => navigate('/account/groups/lessons/add')}>
-				Create new lesson
+			<button className="btn btn-primary">
+				<Link to={'/account/groups/lessons/add'} state={{ group }}>
+					Create new lesson
+				</Link>
 			</button>
-			<table className="table table-hover">
+			<table className="table table-hover align-middle">
 				<thead>
 					<tr>
+						<th scope="col">#</th>
 						<th scope="col">Type</th>
 						<th scope="col">Date</th>
 						<th scope="col">Start time</th>
@@ -50,13 +59,10 @@ export default function Lessons(): JSX.Element {
 				</thead>
 				<tbody>
 					{lessons
-						.sort((a, b) => {
-							const dateA = new Date(a.lessonDate).getTime();
-							const dateB = new Date(b.lessonDate).getTime();
-							return dateA - dateB;
-						})
+						.slice()
+						.sort((a, b) => a.lessonId - b.lessonId)
 						.map((lesson) => (
-							<LessonEdit key={lesson.id} lesson={lesson} />
+							<LessonEdit key={lesson.lessonId} lesson={lesson} />
 						))}
 				</tbody>
 			</table>

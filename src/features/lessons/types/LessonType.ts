@@ -1,4 +1,6 @@
 export const LessonType = {
-	CONSULTATION: 'consultation',
-	LECTURE: 'lecture',
+	consultation: 'CONSULTATION',
+	lesson: 'LESSON',
+	practice: 'PRACTICE',
+	project: 'PROJECT',
 };

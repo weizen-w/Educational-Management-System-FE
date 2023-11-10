@@ -14,7 +14,7 @@ export const loadLessons = createAsyncThunk('lessons/loadLessons', async (id: nu
 
 export const updateLesson = createAsyncThunk('lessons/updateLessons', async (lesson: LessonDto) => {
 	// TODO groupId by LessonDto (Backend)
-	const upLesson = await api.updateLesson(lesson.groupId, lesson);
+	const upLesson = await api.updateLesson(lesson.lessonId, lesson);
 	return upLesson;
 });
 
@@ -42,7 +42,7 @@ const lessonsSlice = createSlice({
 			})
 			.addCase(updateLesson.fulfilled, (state, action) => {
 				state.lessons = state.lessons.map((lesson) =>
-					lesson.id === action.payload.id ? action.payload : lesson
+					lesson.lessonId === action.payload.lessonId ? action.payload : lesson
 				);
 			})
 			.addCase(updateLesson.rejected, (state, action) => {

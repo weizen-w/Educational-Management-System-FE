@@ -1,4 +1,4 @@
-import User from './User';
+import User from '../../auth/types/User';
 
 export default interface UsersState {
 	users: User[];

@@ -1,5 +1,5 @@
 export default interface Lesson {
-	id: number;
+	lessonId: number;
 	group: {
 		id: number;
 		name: string;

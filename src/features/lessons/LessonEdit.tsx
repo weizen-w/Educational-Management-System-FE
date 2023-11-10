@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLessonError } from './selectors';
 import { resetLessonError, updateLesson } from './lessonsSlice';
 import LessonDto from './types/LessonDto';
-import { selectUsers } from '../userManagement/selectors';
+import { selectUsers } from '../users/selectors';
 import { LessonType } from './types/LessonType';
-import { loadUsers } from '../userManagement/usersSlice';
+import { loadUsers } from '../users/usersSlice';
 import { selectModules } from '../modules/selectors';
 import { loadModules } from '../modules/modulesSlice';
 
@@ -21,19 +21,19 @@ export default function LessonEdit(props: Props): JSX.Element {
 	const error = useAppSelector(selectLessonError);
 	const dispatch = useAppDispatch();
 	const [newLesson, setNewLesson] = useState<LessonDto>({
-		id: 0,
-		groupId: 0,
-		lessonTitle: '',
-		lessonDescription: '',
-		lessonType: '',
-		teacherId: 0,
-		lessonDate: '',
-		startTime: '',
-		endTime: '',
-		moduleId: 0,
-		linkLms: '',
-		linkZoom: '',
-		archived: false,
+		lessonId: 0,
+		groupId: lesson.group.id,
+		lessonTitle: lesson.lessonTitle,
+		lessonDescription: lesson.lessonDescription,
+		lessonType: lesson.lessonType,
+		teacherId: lesson.teacher.id,
+		lessonDate: lesson.lessonDate,
+		startTime: lesson.startTime,
+		endTime: lesson.endTime,
+		moduleId: lesson.module.id,
+		linkLms: lesson.linkLms,
+		linkZoom: lesson.linkZoom,
+		archived: lesson.archived,
 	});
 	const [errorsObj, setErrorsObj] = useState({
 		idError: '',
@@ -52,13 +52,13 @@ export default function LessonEdit(props: Props): JSX.Element {
 	});
 
 	const handleEditClick = (newId: number): void => {
-		setNewLesson({ ...newLesson, id: newId });
+		setNewLesson({ ...newLesson, lessonId: newId });
 	};
 
 	const handleCancel = (): void => {
 		setNewLesson({
-			id: 0,
-			groupId: lesson.groupId,
+			lessonId: 0,
+			groupId: lesson.group.id,
 			lessonTitle: lesson.lessonTitle,
 			lessonDescription: lesson.lessonDescription,
 			lessonType: lesson.lessonType,
@@ -96,7 +96,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 			});
 
 			const {
-				id,
+				lessonId,
 				groupId,
 				lessonTitle,
 				lessonType,
@@ -107,7 +107,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 				moduleId,
 				archived,
 			} = newLesson;
-			if (id < 1) {
+			if (lessonId < 1) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
 					idError: 'ID cannot be 0 or negative',
@@ -117,63 +117,63 @@ export default function LessonEdit(props: Props): JSX.Element {
 			if (groupId < 1) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					idError: 'Group ID cannot be 0 or negative',
+					groupIdError: 'Group ID cannot be 0 or negative',
 				}));
 				hasError = true;
 			}
 			if (!lessonTitle.trim()) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					nameError: 'The lesson title cannot be empty or only spaces',
+					lessonTitleError: 'The lesson title cannot be empty or only spaces',
 				}));
 				hasError = true;
 			}
 			if (lessonTitle.length > 50) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					nameError: 'The lesson title cannot be more than 50 characters',
+					lessonTitleError: 'The lesson title cannot be more than 50 characters',
 				}));
 				hasError = true;
 			}
 			if (lessonType.length > 20) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					courseIdError: 'Lesson type cannot be more than 20 characters',
+					lessonTypeError: 'Lesson type cannot be more than 20 characters',
 				}));
 				hasError = true;
 			}
 			if (teacherId < 1) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					idError: 'Teacher ID cannot be 0 or negative',
+					teacherIdError: 'Teacher ID cannot be 0 or negative',
 				}));
 				hasError = true;
 			}
-			if (/^\d{4}-\d{2}-\d{2}$/.test(lessonDate)) {
+			if (!/^\d{4}-\d{2}-\d{2}$/.test(lessonDate)) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					archivedError: 'The date does not reflect the format: 2020-12-31',
+					lessonDateError: 'The date does not reflect the format: 2020-12-31',
 				}));
 				hasError = true;
 			}
-			if (/^\d{2}:\d{2}:\d{2}$/.test(startTime)) {
+			if (!/^\d{2}:\d{2}:\d{2}$/.test(startTime)) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					archivedError: 'The start time does not reflect the format: 10:15:30',
+					startTimeError: 'The start time does not reflect the format: 10:15:30',
 				}));
 				hasError = true;
 			}
-			if (/^\d{2}:\d{2}:\d{2}$/.test(endTime)) {
+			if (!/^\d{2}:\d{2}:\d{2}$/.test(endTime)) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					archivedError: 'The end time does not reflect the format: 10:15:30',
+					endTimeError: 'The end time does not reflect the format: 10:15:30',
 				}));
 				hasError = true;
 			}
 			if (moduleId < 1) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					idError: 'Module ID cannot be 0 or negative',
+					moduleIdError: 'Module ID cannot be 0 or negative',
 				}));
 				hasError = true;
 			}
@@ -191,8 +191,8 @@ export default function LessonEdit(props: Props): JSX.Element {
 			try {
 				await dispatch(
 					updateLesson({
-						id: lesson.id,
-						groupId: newLesson.groupId,
+						lessonId: lesson.lessonId,
+						groupId: lesson.group.id,
 						lessonTitle: newLesson.lessonTitle,
 						lessonDescription: newLesson.lessonDescription,
 						lessonType: newLesson.lessonType,
@@ -203,7 +203,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 						moduleId: newLesson.moduleId,
 						linkLms: newLesson.linkLms,
 						linkZoom: newLesson.linkZoom,
-						archived: newLesson.archived,
+						archived: lesson.archived,
 					})
 				);
 				handleEditClick(0);
@@ -246,8 +246,9 @@ export default function LessonEdit(props: Props): JSX.Element {
 
 	return (
 		<>
-			{newLesson.id !== lesson.id ? (
+			{newLesson.lessonId !== lesson.lessonId ? (
 				<tr>
+					<th scope="row">{lesson.lessonId}</th>
 					<td>{lesson.lessonType}</td>
 					<td>{lesson.lessonDate}</td>
 					<td>{lesson.startTime}</td>
@@ -257,38 +258,22 @@ export default function LessonEdit(props: Props): JSX.Element {
 					</td>
 					<td>{lesson.module.name}</td>
 					<td>{lesson.lessonTitle}</td>
-					<td
-						style={{
-							maxWidth: '70px',
-							wordWrap: 'break-word',
-							overflow: 'hidden',
-							whiteSpace: 'nowrap',
-							textOverflow: 'ellipsis',
-						}}
-					>
+					<td>
 						<a href={lesson.linkLms} target="_blank" rel="noreferrer">
 							Link to LMS
 						</a>
 					</td>
-					<td
-						style={{
-							maxWidth: '70px',
-							wordWrap: 'break-word',
-							overflow: 'hidden',
-							whiteSpace: 'nowrap',
-							textOverflow: 'ellipsis',
-						}}
-					>
+					<td>
 						<a href={lesson.linkZoom} target="_blank" rel="noreferrer">
 							Link to Zoom
 						</a>
 					</td>
 					<td>{lesson.archived.toString()}</td>
-					<td className="row g-1">
+					<td className="row" style={{ gap: '3px' }}>
 						<button
 							type="button"
 							className="btn btn-outline-dark"
-							onClick={() => handleEditClick(lesson.id)}
+							onClick={() => handleEditClick(lesson.lessonId)}
 						>
 							Edit
 						</button>
@@ -296,10 +281,9 @@ export default function LessonEdit(props: Props): JSX.Element {
 							type="button"
 							className="btn btn-secondary"
 							onClick={() => {
-								console.log(lesson);
 								dispatch(
 									updateLesson({
-										id: lesson.id,
+										lessonId: lesson.lessonId,
 										groupId: lesson.group.id,
 										lessonTitle: lesson.lessonTitle,
 										lessonDescription: lesson.lessonDescription,
@@ -332,10 +316,9 @@ export default function LessonEdit(props: Props): JSX.Element {
 				</tr>
 			) : (
 				<tr>
-					<td colSpan={13}>
+					<td colSpan={12}>
 						<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>
 							<div className="col-md-2">
-								<label htmlFor="">Title</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -355,7 +338,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
 									name="lessonDescription"
-									value={newLesson.lessonDescription}
+									value={newLesson.lessonDescription || ''}
 									placeholder={lesson.lessonDescription}
 									onChange={handleInputChange}
 								/>
@@ -496,7 +479,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
 									name="linkLms"
-									value={newLesson.linkLms}
+									value={newLesson.linkLms || ''}
 									placeholder={lesson.linkLms}
 									onChange={handleInputChange}
 								/>
@@ -511,7 +494,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
 									name="linkZoom"
-									value={newLesson.linkZoom}
+									value={newLesson.linkZoom || ''}
 									placeholder={lesson.linkZoom}
 									onChange={handleInputChange}
 								/>
