@@ -268,7 +268,7 @@ export default function UserEdit(props: Props): JSX.Element {
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
 									name="photoLink"
-									value={newUser.photoLink}
+									value={newUser.photoLink || ''}
 									placeholder={user.photoLink}
 									onChange={handleInputChange}
 								/>

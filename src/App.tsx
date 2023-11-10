@@ -20,6 +20,8 @@ import ModuleCreate from './features/modules/ModuleCreate';
 import Lessons from './features/lessons/Lessons';
 import LessonCreate from './features/lessons/LessonCreate';
 import GroupsAttendance from './features/attendances/GroupsAttendance';
+import UsersAttendance from './features/attendances/UsersAttendance';
+import Attendances from './features/attendances/Attendances';
 
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -54,7 +56,12 @@ function App(): JSX.Element {
 						<Route path="/account/groups/add" element={<GroupCreate />} />
 						<Route path="/account/groups/lessons" element={<Lessons />} />
 						<Route path="/account/groups/lessons/add" element={<LessonCreate />} />
-						<Route path="/account/groupsAttendance" element={<GroupsAttendance />} />
+						<Route path="/account/attendances" element={<GroupsAttendance />} />
+						<Route path="/account/attendances/students-group" element={<UsersAttendance />} />
+						<Route
+							path="/account/attendances/students-group/attendances-student"
+							element={<Attendances />}
+						/>
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : roleUser === 'TEACHER' ? (

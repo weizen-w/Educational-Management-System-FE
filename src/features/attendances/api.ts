@@ -1,41 +1,20 @@
-// eslint-disable-next-line import/no-unresolved
 import ErrorResponse from '../errors/ErrorResponse';
-import Group from './types/Group';
+import Attendance from './types/Attendance';
 
-export async function getAll(): Promise<Group[]> {
-	const result = await fetch(`/api/groups/`);
-	return result.json();
+export async function getAllByUser(userId: number): Promise<Attendance[]> {
+	const res = await fetch(`/api/users/${userId}/attendance`);
+	return res.json();
 }
 
-export async function updateGroup(id: number, group: Group): Promise<Group> {
-	const result = await fetch(`/api/groups/${id}`, {
+export async function updateAttendance(id: number, attendance: Attendance): Promise<Attendance> {
+	const result = await fetch(`/api/attendances/${id}`, {
 		method: 'PUT',
-		body: JSON.stringify(group),
+		body: JSON.stringify(attendance),
 		headers: {
 			'Content-Type': 'application/json',
 		},
 	});
 	if (!result.ok) {
-		let errTotalMessage = '';
-		const errRes: ErrorResponse = await result.json();
-		errRes.errors?.map((err) => {
-			errTotalMessage += '/' + err.message;
-		});
-		if (errRes.message) errTotalMessage = errRes.message;
-		throw new Error(errTotalMessage);
-	}
-	return result.json();
-}
-
-export async function addGroup(group: Group): Promise<Group> {
-	const result = await fetch(`/api/groups/`, {
-		method: 'POST',
-		body: JSON.stringify(group),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	if (result.status !== 201) {
 		let errTotalMessage = '';
 		const errRes: ErrorResponse = await result.json();
 		errRes.errors?.map((err) => {

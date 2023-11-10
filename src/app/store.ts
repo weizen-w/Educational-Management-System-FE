@@ -5,6 +5,7 @@ import coursesSlice from '../features/courses/coursesSlice';
 import groupsSlice from '../features/groups/groupsSlice';
 import modulesSlice from '../features/modules/modulesSlice';
 import lessonsSlice from '../features/lessons/lessonsSlice';
+import attendancesSlice from '../features/attendances/attendancesSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
 		groups: groupsSlice,
 		moduls: modulesSlice,
 		lessons: lessonsSlice,
+		attendances: attendancesSlice,
 	},
 });
 
