@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectCourses } from '../courses/selectors';
 import Course from '../courses/types/Course';
 import { loadCourses } from '../courses/coursesSlice';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { loadGroups } from '../groups/groupsSlice';
 import { selectGroups } from '../groups/selectors';
 
@@ -22,6 +22,15 @@ export default function GroupsAttendance(): JSX.Element {
 
 	return (
 		<>
+			<nav aria-label="breadcrumb">
+				<ol className="breadcrumb">
+					<li className="breadcrumb-item">
+						<a style={{ cursor: 'pointer' }} onClick={() => navigate('/account/attendances')}>
+							Groups
+						</a>
+					</li>
+				</ol>
+			</nav>
 			<h1>Groups Attendance</h1>
 			<table className="table table-hover">
 				<thead>
@@ -50,10 +59,27 @@ export default function GroupsAttendance(): JSX.Element {
 								<td>{group.name}</td>
 								<td>{getCourse(group.courseId)?.name}</td>
 								<td>
-									<button type="button" className="btn btn-outline-primary">
-										<Link to={'/account/attendances/students-group'} state={{ group }}>
-											Students
-										</Link>
+									<button
+										type="button"
+										className="btn btn-outline-success"
+										onClick={() =>
+											navigate('/account/attendances/students-group', { state: { group } })
+										}
+									>
+										To students
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="bi bi-arrow-right-short"
+											viewBox="0 0 16 16"
+										>
+											<path
+												fillRule="evenodd"
+												d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+											/>
+										</svg>
 									</button>
 								</td>
 							</tr>

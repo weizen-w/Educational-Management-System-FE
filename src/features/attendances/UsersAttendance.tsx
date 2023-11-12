@@ -4,7 +4,7 @@ import User from '../auth/types/User';
 import { useEffect, useState } from 'react';
 import { loadUsersByMainGroup } from '../users/usersSlice';
 import Group from '../groups/types/Group';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function UsersAttendance(): JSX.Element {
 	const location = useLocation();
@@ -13,6 +13,7 @@ export default function UsersAttendance(): JSX.Element {
 	const error = useAppSelector(selectUserErrors);
 	const users = useAppSelector<User[]>(selectUsers);
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const [selectedRole, setSelectedRole] = useState<string | 'All'>('STUDENT');
 
 	const filteredUsers = users.filter((user) => {
@@ -29,6 +30,23 @@ export default function UsersAttendance(): JSX.Element {
 
 	return (
 		<div>
+			<nav aria-label="breadcrumb">
+				<ol className="breadcrumb">
+					<li className="breadcrumb-item">
+						<a style={{ cursor: 'pointer' }} onClick={() => navigate('/account/attendances')}>
+							Groups
+						</a>
+					</li>
+					<li className="breadcrumb-item">
+						<a
+							style={{ cursor: 'pointer' }}
+							onClick={() => navigate('/account/attendances/students-group', { state: { group } })}
+						>
+							Students
+						</a>
+					</li>
+				</ol>
+			</nav>
 			<h1>Students&Teacher</h1>
 			{error && (
 				<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
@@ -60,14 +78,54 @@ export default function UsersAttendance(): JSX.Element {
 								<td>{user.lastName}</td>
 								<td>{user.email}</td>
 								<td>{user.role}</td>
-								<td>
-									<button type="button" className="btn btn-outline-primary">
-										<Link
-											to={'/account/attendances/students-group/attendances-student'}
-											state={{ user, group }}
+								<td className="col-md-3 row g-1">
+									<button
+										type="button"
+										className="btn btn-outline-success"
+										onClick={() =>
+											navigate('/account/attendances/students-group/attendances-student', {
+												state: { user, group },
+											})
+										}
+									>
+										To attendances
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="bi bi-arrow-right-short"
+											viewBox="0 0 16 16"
 										>
-											Attendances
-										</Link>
+											<path
+												fillRule="evenodd"
+												d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+											/>
+										</svg>
+									</button>
+									<button
+										type="button"
+										className="btn btn-outline-success"
+										onClick={() =>
+											navigate('/account/attendances/students-group/submissions-student', {
+												state: { user, group },
+											})
+										}
+									>
+										To homeworks
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="bi bi-arrow-right-short"
+											viewBox="0 0 16 16"
+										>
+											<path
+												fillRule="evenodd"
+												d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+											/>
+										</svg>
 									</button>
 								</td>
 							</tr>

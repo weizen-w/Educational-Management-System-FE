@@ -6,7 +6,7 @@ import Lesson from '../lessons/types/Lesson';
 import { selectLessons } from '../lessons/selectors';
 import { loadLessons } from '../lessons/lessonsSlice';
 import Group from '../groups/types/Group';
-import { resetAttendanceError, updateAttendance } from './attendancesSlice';
+import { loadAttendancesByUser, resetAttendanceError, updateAttendance } from './attendancesSlice';
 import { AttendanceStatus } from './types/AttendanceStatus';
 
 interface Props {
@@ -157,6 +157,7 @@ export default function AttendanceEdit(props: Props): JSX.Element {
 
 	useEffect(() => {
 		dispatch(loadLessons(group.id));
+		dispatch(loadAttendancesByUser(attendance.student_id));
 	}, [dispatch]);
 
 	return (
@@ -164,12 +165,12 @@ export default function AttendanceEdit(props: Props): JSX.Element {
 			{newAttendance.attendance_id !== attendance.attendance_id ? (
 				<tr>
 					<th scope="row">{attendance.attendance_id}</th>
+					<td>{getLesson(attendance.lesson_id)?.lessonDate}</td>
 					<td>
 						{getLesson(attendance.lesson_id)?.lessonType} /{' '}
 						{getLesson(attendance.lesson_id)?.lessonTitle} /{' '}
 						{getLesson(attendance.lesson_id)?.module.name}
 					</td>
-					<td>{getLesson(attendance.lesson_id)?.lessonDate}</td>
 					<td>{attendance.status}</td>
 					<td>{attendance.archived.toString()}</td>
 					<td>
@@ -239,7 +240,7 @@ export default function AttendanceEdit(props: Props): JSX.Element {
 									</div>
 								)}
 							</div>
-							<div className="col-md-1">
+							<div className="col-md-2">
 								<button type="submit" className="btn btn-success">
 									Save
 								</button>

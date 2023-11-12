@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLessonError, selectLessons } from './selectors';
 import { useEffect } from 'react';
@@ -14,13 +14,7 @@ export default function Lessons(): JSX.Element {
 	const lessons: Lesson[] = useAppSelector(selectLessons);
 	const error = useAppSelector(selectLessonError);
 	const dispatch = useAppDispatch();
-
-	// const sortedLessons = lessons.slice().sort((a, b) => {
-	// 	console.log(lessons);
-	// 	const dateA = new Date(a.lessonDate).getTime();
-	// 	const dateB = new Date(b.lessonDate).getTime();
-	// 	return dateA - dateB;
-	// });
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		dispatch(loadLessons(group.id));
@@ -28,6 +22,16 @@ export default function Lessons(): JSX.Element {
 
 	return (
 		<div>
+			<nav aria-label="breadcrumb">
+				<ol className="breadcrumb">
+					<li className="breadcrumb-item">
+						<a href="#/account/groups">Groups</a>
+					</li>
+					<li className="breadcrumb-item">
+						<a href="#/account/groups/lessons">Lessons</a>
+					</li>
+				</ol>
+			</nav>
 			<h1>Lessons</h1>
 			<h4 style={{ textDecoration: 'underline' }}>for group {group.name}</h4>
 			{error && (
@@ -35,10 +39,11 @@ export default function Lessons(): JSX.Element {
 					{error}
 				</div>
 			)}
-			<button className="btn btn-primary">
-				<Link to={'/account/groups/lessons/add'} state={{ group }}>
-					Create new lesson
-				</Link>
+			<button
+				className="btn btn-primary"
+				onClick={() => navigate('/account/groups/lessons/add', { state: { group } })}
+			>
+				Create new lesson
 			</button>
 			<table className="table table-hover align-middle">
 				<thead>
@@ -59,8 +64,7 @@ export default function Lessons(): JSX.Element {
 				</thead>
 				<tbody>
 					{lessons
-						.slice()
-						.sort((a, b) => a.lessonId - b.lessonId)
+						.toSorted((a, b) => new Date(a.lessonDate).getTime() - new Date(b.lessonDate).getTime())
 						.map((lesson) => (
 							<LessonEdit key={lesson.lessonId} lesson={lesson} />
 						))}
