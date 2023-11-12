@@ -109,7 +109,7 @@ export default function Submissions(): JSX.Element {
 									onClick={() =>
 										navigate(
 											'/account/attendances/students-group/submissions-student/submission-details',
-											{ state: { submission, group } }
+											{ state: { submission, group, user } }
 										)
 									}
 								>
