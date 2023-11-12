@@ -1,15 +1,15 @@
 import ErrorResponse from '../errors/ErrorResponse';
-import Attendance from './types/Attendance';
+import Submission from './types/Submisson';
 
-export async function getAllByUser(userId: number): Promise<Attendance[]> {
-	const res = await fetch(`/api/users/${userId}/attendance`);
+export async function getAllByUser(userId: number): Promise<Submission[]> {
+	const res = await fetch(`/api/users/${userId}/submissions`);
 	return res.json();
 }
 
-export async function updateAttendance(id: number, attendance: Attendance): Promise<Attendance> {
-	const result = await fetch(`/api/attendances/${id}`, {
+export async function updateSubmission(id: number, submission: Submission): Promise<Submission> {
+	const result = await fetch(`/api/submissions/${id}`, {
 		method: 'PUT',
-		body: JSON.stringify(attendance),
+		body: JSON.stringify(submission),
 		headers: {
 			'Content-Type': 'application/json',
 		},

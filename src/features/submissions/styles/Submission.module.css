@@ -1,0 +1,13 @@
+.textareaSolution {
+	background-color: rgb(233, 248, 240);
+	border: 1px solid black;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+.solutionBlock {
+	background-color: rgb(217, 230, 224);
+	border: 1px solid black;
+	border-radius: 10px;
+	padding: 10px;
+}

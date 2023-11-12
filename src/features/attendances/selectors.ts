@@ -1,5 +1,6 @@
 import { RootState } from '../../app/store';
-import Group from './types/Group';
+import Attendance from './types/Attendance';
 
-export const selectGroups = (state: RootState): Group[] => state.groups.groups;
-export const selectGroupError = (state: RootState): string | undefined => state.groups.error;
+export const selectAttendances = (state: RootState): Attendance[] => state.attendances.attendances;
+export const selectAttendanceError = (state: RootState): string | undefined =>
+	state.attendances.error;

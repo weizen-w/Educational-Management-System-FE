@@ -10,7 +10,17 @@ const initialState: UsersState = {
 
 export const loadUsers = createAsyncThunk('users/loadUsers', () => api.getAll());
 
-export const updateUser = createAsyncThunk('users/updateUsers', (user: User) =>
+export const loadUsersByGroup = createAsyncThunk(
+	'users/loadUsersByGroup',
+	async (groupId: number) => api.getUsersByGroup(groupId)
+);
+
+export const loadUsersByMainGroup = createAsyncThunk(
+	'users/loadUsersByMainGroup',
+	async (groupId: number) => api.getUsersByMainGroup(groupId)
+);
+
+export const updateUser = createAsyncThunk('users/updateUsers', async (user: User) =>
 	api.updateUser(user.id, user)
 );
 
@@ -28,6 +38,18 @@ const usersSlice = createSlice({
 				state.users = action.payload;
 			})
 			.addCase(loadUsers.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadUsersByGroup.fulfilled, (state, action) => {
+				state.users = action.payload;
+			})
+			.addCase(loadUsersByGroup.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadUsersByMainGroup.fulfilled, (state, action) => {
+				state.users = action.payload;
+			})
+			.addCase(loadUsersByMainGroup.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(updateUser.fulfilled, (state, action) => {

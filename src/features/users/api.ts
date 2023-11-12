@@ -6,6 +6,16 @@ export async function getAll(): Promise<User[]> {
 	return res.json();
 }
 
+export async function getUsersByGroup(groupId: number): Promise<User[]> {
+	const result = await fetch(`/api/groups/${groupId}/students`);
+	return result.json();
+}
+
+export async function getUsersByMainGroup(groupId: number): Promise<User[]> {
+	const result = await fetch(`/api/groups/${groupId}/users/byMainGroup`);
+	return result.json();
+}
+
 export async function updateUser(userId: number, user: User): Promise<User> {
 	const res = await fetch(`/api/users/${userId}`, {
 		method: 'PUT',

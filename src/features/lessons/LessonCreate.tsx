@@ -67,7 +67,7 @@ export default function LessonCreate(): JSX.Element {
 			linkZoom: '',
 			archived: false,
 		});
-		navigate('/account/groups/lessons');
+		navigate('/account/groups/lessons', { state: { group } });
 	};
 
 	const handleSubmitCreate = useCallback(

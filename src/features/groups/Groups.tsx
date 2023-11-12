@@ -21,6 +21,13 @@ export default function Groups(): JSX.Element {
 
 	return (
 		<>
+			<nav aria-label="breadcrumb">
+				<ol className="breadcrumb">
+					<li className="breadcrumb-item">
+						<a href="#/account/groups">Groups</a>
+					</li>
+				</ol>
+			</nav>
 			<h1>Groups</h1>
 			{error && (
 				<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
