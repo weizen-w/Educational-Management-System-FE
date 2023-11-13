@@ -19,7 +19,7 @@ export const updateSubmission = createAsyncThunk(
 );
 
 const submissionsSlice = createSlice({
-	name: 'attendances',
+	name: 'submissions',
 	initialState,
 	reducers: {
 		resetSubmissionError: (state) => {

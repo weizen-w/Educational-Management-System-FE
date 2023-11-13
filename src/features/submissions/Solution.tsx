@@ -1,12 +1,12 @@
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import EditorToolbar, { modules, formats } from './editor/EditorToolbar';
+import stylesEditor from './editor/Editor.module.css';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Submission from './types/Submisson';
 import { resetSubmissionError, updateSubmission } from './submissionsSlice';
 import styles from './styles/Submission.module.css';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import EditorToolbar, { modules, formats } from './editor/EditorToolbar';
-import stylesEditor from './editor/Editor.module.css';
 import { selectSubmissions } from './selectors';
 import { SubmissionStatus } from './types/SubmissionStatus';
 
@@ -137,9 +137,19 @@ export default function Solution(props: Props): JSX.Element {
 	return (
 		<div className={styles.solutionBlock}>
 			<h2>Solution</h2>
-			<h4>
+			<h4
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					gap: '10px',
+					backgroundColor: 'lightskyblue',
+					padding: '10px',
+				}}
+			>
 				<span>Status: </span>
 				<select
+					style={{ maxWidth: '150px' }}
+					className="form-select form-select-sm"
 					name="submission_state"
 					value={currSubmission.submission_state}
 					onChange={handleChangeStatus}
@@ -217,7 +227,7 @@ export default function Solution(props: Props): JSX.Element {
 									formats={formats}
 								/>
 							</div>
-							<div className="col-md-1">
+							<div className="col-md-2 m-2">
 								<button type="submit" className="btn btn-success">
 									Save
 								</button>
