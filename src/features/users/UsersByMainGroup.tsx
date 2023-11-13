@@ -14,12 +14,23 @@ export default function UsersByMainGroup(): JSX.Element {
 	const users = useAppSelector<User[]>(selectUsers);
 	const dispatch = useAppDispatch();
 
+
 	useEffect(() => {
 		dispatch(loadUsersByMainGroup(group.id));
 	}, [dispatch]);
 
 	return (
 		<div>
+			<nav aria-label="breadcrumb">
+				<ol className="breadcrumb">
+					<li className="breadcrumb-item">
+						<a href="#/account/groups">Groups</a>
+					</li>
+					<li className="breadcrumb-item">
+						<a href="#/account/groups/students">Students</a>
+					</li>
+				</ol>
+			</nav>
 			<h1>Students</h1>
 			<h4 style={{ textDecoration: 'underline' }}>for group {group.name}</h4>
 			{error && (

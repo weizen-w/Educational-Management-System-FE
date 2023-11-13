@@ -7,6 +7,11 @@ export async function getAllbyGroup(id: number): Promise<Lesson[]> {
 	return result.json();
 }
 
+export async function getAllbyTeacher(): Promise<Lesson[]> {
+	const result = await fetch(`/api/lesson/byTeacher`);
+	return result.json();
+}
+
 export async function updateLesson(lessonId: number, lesson: LessonDto): Promise<Lesson> {
 	const result = await fetch(`/api/lesson/${lessonId}`, {
 		method: 'PUT',
