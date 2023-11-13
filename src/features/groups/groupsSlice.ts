@@ -10,6 +10,10 @@ const initialState: GroupsState = {
 
 export const loadGroups = createAsyncThunk('groups/loadGroups', () => api.getAll());
 
+export const loadGroupsByAuthUser = createAsyncThunk('groups/loadGroupsByAuthUser', () =>
+	api.getGroupsByAuthUser()
+);
+
 export const updateGroup = createAsyncThunk('groups/updateGroup', async (group: Group) =>
 	api.updateGroup(group.id, group)
 );
@@ -32,6 +36,12 @@ const groupsSlice = createSlice({
 				state.groups = action.payload;
 			})
 			.addCase(loadGroups.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadGroupsByAuthUser.fulfilled, (state, action) => {
+				state.groups = action.payload;
+			})
+			.addCase(loadGroupsByAuthUser.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(updateGroup.fulfilled, (state, action) => {
