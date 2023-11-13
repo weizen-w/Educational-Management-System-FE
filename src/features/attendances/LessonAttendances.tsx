@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectAttendanceError, selectAttendances } from './selectors';
 import { loadAttendancesByLesson, updateAttendance } from './attendancesSlice';
@@ -19,12 +19,6 @@ export default function LessonAttendances(): JSX.Element {
 	const error = useAppSelector(selectAttendanceError);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [newStatus, setNewStatus] = useState({
-		status: '',
-	});
-	const [errorsObj, setErrorsObj] = useState({
-		statusError: '',
-	});
 
 	const getUser = (findId: number): User | undefined => users.find((user) => user.id === findId);
 
@@ -42,9 +36,6 @@ export default function LessonAttendances(): JSX.Element {
 		currAttendance: Attendance,
 		event: React.ChangeEvent<HTMLSelectElement>
 	): void => {
-		setNewStatus({
-			status: event.target.value,
-		});
 		dispatch(
 			updateAttendance({
 				...currAttendance,
