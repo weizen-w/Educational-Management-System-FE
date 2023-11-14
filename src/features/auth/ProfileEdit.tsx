@@ -1,27 +1,29 @@
 // eslint-disable-next-line import/default
 import React, { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { resetUserError, updateUser } from './usersSlice';
 import User from '../auth/types/User';
-import { selectUserErrors } from './selectors';
+import { resetUserError, updateUser } from '../users/usersSlice';
+import { selectUserErrors } from '../users/selectors';
+import { updateProfile } from './authSlice';
 
 interface Props {
-	user: User;
+	user: User | undefined;
 }
-export default function UserEdit(props: Props): JSX.Element {
+export default function ProfileEdit(props: Props): JSX.Element {
 	const { user } = props;
 	const error = useAppSelector(selectUserErrors);
 	const dispatch = useAppDispatch();
 	const [newUser, setNewUser] = useState<User>({
 		id: 0,
-		firstName: user.firstName,
-		lastName: user.lastName,
-		email: user.email,
-		password: user.password,
-		role: user.role,
-		state: user.state,
-		photoLink: user.photoLink,
+		firstName: user?.firstName || '',
+		lastName: user?.lastName || '',
+		email: user?.email || '',
+		password: undefined,
+		role: user?.role || 'STUDENT',
+		state: user?.state || 'NOT_CONFIRMED',
+		photoLink: user?.photoLink || '',
 	});
+	const [password, setPassword] = useState<string>();
 	const [errorsObj, setErrorsObj] = useState({
 		idError: '',
 		firstNameError: '',
@@ -40,14 +42,15 @@ export default function UserEdit(props: Props): JSX.Element {
 	const handleCancel = (): void => {
 		setNewUser({
 			id: 0,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			email: user.email,
-			password: user.password,
-			role: user.role,
-			state: user.state,
-			photoLink: user.photoLink,
+			firstName: user?.firstName || '',
+			lastName: user?.lastName || '',
+			email: user?.email || '',
+			password: user?.password || '',
+			role: user?.role || 'STUDENT',
+			state: user?.state || 'NOT_CONFIRMED',
+			photoLink: user?.photoLink || '',
 		});
+		setPassword('');
 		handleEditClick(0);
 	};
 
@@ -117,6 +120,7 @@ export default function UserEdit(props: Props): JSX.Element {
 				}));
 				hasError = true;
 			}
+
 			if (
 				state !== 'NOT_CONFIRMED' &&
 				state !== 'CONFIRMED' &&
@@ -132,15 +136,34 @@ export default function UserEdit(props: Props): JSX.Element {
 			if (hasError) {
 				return;
 			}
+			if (password) {
+				if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/.test(password)) {
+					setErrorsObj((prevErrorsObj) => ({
+						...prevErrorsObj,
+						passwordError:
+							'The password must contain at least 8 characters, including one number, one uppercase and one lowercase letter.',
+					}));
+					hasError = true;
+				}
+			} else {
+				setNewUser((prevNewUser) => ({
+					...prevNewUser,
+					password: undefined,
+				}));
+			}
+			if (hasError) {
+				return;
+			}
+			const hasPasswordChanged = password && password !== user?.password;
 
 			try {
 				await dispatch(
-					updateUser({
-						id: user.id,
+					updateProfile({
+						id: user?.id || 0,
 						firstName: newUser.firstName,
 						lastName: newUser.lastName,
 						email: newUser.email,
-						password: newUser.password,
+						password: hasPasswordChanged ? password : undefined,
 						role: newUser.role,
 						state: newUser.state,
 						photoLink: newUser.photoLink,
@@ -162,33 +185,34 @@ export default function UserEdit(props: Props): JSX.Element {
 				console.error(err);
 			}
 		},
-		[dispatch, errorsObj, newUser]
+		[dispatch, errorsObj, newUser, password, user]
 	);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
 		dispatch(resetUserError());
 		const { name: key, value } = e.target;
-		setNewUser((prevNewUser) => ({
-			...prevNewUser,
-			[key]: value,
-		}));
+		if (key === 'password') {
+			setPassword(value);
+		} else {
+			setNewUser((prevNewUser) => ({
+				...prevNewUser,
+				[key]: value,
+			}));
+		}
 	};
-
 	return (
 		<>
-			{newUser.id !== user.id ? (
+			{newUser.id !== user?.id ? (
 				<tr>
-					<td>{user.firstName}</td>
-					<td>{user.lastName}</td>
-					<td>{user.email}</td>
-					<td>{user.role}</td>
-					<td>{user.state}</td>
-					<td>{user.photoLink}</td>
+					<td>{user?.firstName}</td>
+					<td>{user?.lastName}</td>
+					<td>{user?.email}</td>
+					<td>{user?.photoLink}</td>
 					<td className="row" style={{ gap: '3px' }}>
 						<button
 							type="button"
 							className="btn btn-outline-dark"
-							onClick={() => handleEditClick(user.id)}
+							onClick={() => handleEditClick(user?.id || 0)}
 						>
 							Edit
 						</button>
@@ -247,28 +271,29 @@ export default function UserEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-2">
-								<label htmlFor="">Role</label>
+								<label htmlFor="">Password</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
-									name="role"
-									value={newUser.role}
-									placeholder={user.role}
+									name="password"
+									value={newUser.password}
+									placeholder={'input new password'}
 									onChange={handleInputChange}
 								/>
-								{errorsObj.roleError && (
+								{errorsObj.passwordError && (
 									<div className="invalid-feedback mb-3" style={{ display: 'block' }}>
-										{errorsObj.roleError}
+										{errorsObj.passwordError}
 									</div>
 								)}
 							</div>
+
 							<div className="col-md-2">
 								<label htmlFor="">Photo link</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
 									name="photoLink"
-									value={newUser.photoLink || ''}
+									value={newUser.photoLink}
 									placeholder={user.photoLink}
 									onChange={handleInputChange}
 								/>

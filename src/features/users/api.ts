@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import User from '../auth/types/User';
 import ErrorResponse from '../errors/ErrorResponse';
 

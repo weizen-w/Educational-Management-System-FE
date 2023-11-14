@@ -56,6 +56,7 @@ function App(): JSX.Element {
 					<Route path="/" element={<Layout />}>
 						<Route path="/account/profile" element={<Profile />} />
 						<Route path="/account/users" element={<UsersList />} />
+						<Route path="/account/profile/users" element={<UsersList />} />
 						<Route path="/account/courses" element={<Courses />} />
 						<Route path="/account/courses/add" element={<CourseCreate />} />
 						<Route path="/account/modules" element={<Modules />} />
