@@ -18,7 +18,7 @@ export default function ProfileEdit(props: Props): JSX.Element {
 		firstName: user?.firstName || '',
 		lastName: user?.lastName || '',
 		email: user?.email || '',
-		password: user?.password || '',
+		password: undefined,
 		role: user?.role || 'STUDENT',
 		state: user?.state || 'NOT_CONFIRMED',
 		photoLink: user?.photoLink || '',
@@ -136,15 +136,21 @@ export default function ProfileEdit(props: Props): JSX.Element {
 			if (hasError) {
 				return;
 			}
-			if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(password)) {
-				setErrorsObj((prevErrorsObj) => ({
-					...prevErrorsObj,
-					passwordError:
-						'The password must contain at least 8 characters, including one number, one uppercase and one lowercase letter.',
+			if (password) {
+				if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/.test(password)) {
+					setErrorsObj((prevErrorsObj) => ({
+						...prevErrorsObj,
+						passwordError:
+							'The password must contain at least 8 characters, including one number, one uppercase and one lowercase letter.',
+					}));
+					hasError = true;
+				}
+			} else {
+				setNewUser((prevNewUser) => ({
+					...prevNewUser,
+					password: undefined,
 				}));
-				hasError = true;
 			}
-
 			if (hasError) {
 				return;
 			}
@@ -270,8 +276,8 @@ export default function ProfileEdit(props: Props): JSX.Element {
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
 									name="password"
-									value={password || newUser.password}
-									placeholder={user.password}
+									value={newUser.password}
+									placeholder={'input new password'}
 									onChange={handleInputChange}
 								/>
 								{errorsObj.passwordError && (

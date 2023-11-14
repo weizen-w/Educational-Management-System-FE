@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import ErrorResponse from '../errors/ErrorResponse';
 import Credentials from './types/Credentials';
 import RegisterData from './types/RegisterData';
