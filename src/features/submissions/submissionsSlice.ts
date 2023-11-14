@@ -13,6 +13,11 @@ export const loadSubmissionsByUser = createAsyncThunk(
 	async (userId: number) => api.getAllByUser(userId)
 );
 
+export const loadSubmissionsByLesson = createAsyncThunk(
+	'submissions/loadSubmissionsByLesson',
+	async (lessonId: number) => api.getAllByLesson(lessonId)
+);
+
 export const updateSubmission = createAsyncThunk(
 	'submissions/updateSubmission',
 	async (submission: Submission) => api.updateSubmission(submission.submission_id, submission)
@@ -32,6 +37,12 @@ const submissionsSlice = createSlice({
 				state.submissions = action.payload;
 			})
 			.addCase(loadSubmissionsByUser.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadSubmissionsByLesson.fulfilled, (state, action) => {
+				state.submissions = action.payload;
+			})
+			.addCase(loadSubmissionsByLesson.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(updateSubmission.fulfilled, (state, action) => {

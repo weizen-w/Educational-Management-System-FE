@@ -44,7 +44,7 @@ function Navbar(): JSX.Element {
 						<>
 							<NavLink to="/account/profile">Personal information</NavLink>
 							<NavLink to="/account/groups">My study groups</NavLink>
-							<NavLink to="/account/lessons">Schedule, student attendances</NavLink>
+							<NavLink to="/account/lessons">Lesson schedule</NavLink>
 						</>
 					)}
 					{user?.role === 'STUDENT' && (

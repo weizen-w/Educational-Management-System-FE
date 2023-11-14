@@ -9,6 +9,7 @@ import { resetSubmissionError, updateSubmission } from './submissionsSlice';
 import styles from './styles/Submission.module.css';
 import { selectSubmissions } from './selectors';
 import { SubmissionStatus } from './types/SubmissionStatus';
+import { selectUser } from '../auth/selectors';
 
 interface Props {
 	submission: Submission;
@@ -16,6 +17,7 @@ interface Props {
 
 export default function Solution(props: Props): JSX.Element {
 	const { submission } = props;
+	const user = useAppSelector(selectUser);
 	const dispatch = useAppDispatch();
 	const submissions = useAppSelector(selectSubmissions);
 	const [currSubmission, setCurrSubmission] = useState<Submission>(submission);
@@ -201,13 +203,15 @@ export default function Solution(props: Props): JSX.Element {
 								modules={modules}
 								formats={formats}
 							/>
-							<button
-								type="button"
-								className="btn btn-outline-dark col-md-1 m-2"
-								onClick={() => handleEditClick(currSubmission.submission_id)}
-							>
-								Edit
-							</button>
+							{(user?.role === 'STUDENT' || user?.role === 'ADMIN') && (
+								<button
+									type="button"
+									className="btn btn-outline-dark col-md-1 m-2"
+									onClick={() => handleEditClick(currSubmission.submission_id)}
+								>
+									Edit
+								</button>
+							)}
 						</div>
 					) : (
 						<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>

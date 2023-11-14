@@ -28,6 +28,8 @@ import GroupsTeacher from './features/groups/GroupsTeacher';
 import UsersByMainGroup from './features/users/UsersByMainGroup';
 import LessonsTeacher from './features/lessons/LessonsTeacher';
 import LessonAttendances from './features/attendances/LessonAttendances';
+import SubmissionsTeacher from './features/submissions/SubmissionsTeacher';
+import SubmissionDetailsTeacher from './features/submissions/SubmissionsDetailsTeacher';
 
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -85,6 +87,11 @@ function App(): JSX.Element {
 						<Route path="/account/groups/students" element={<UsersByMainGroup />} />
 						<Route path="/account/lessons" element={<LessonsTeacher />} />
 						<Route path="/account/lessons/attendances" element={<LessonAttendances />} />
+						<Route path="/account/lessons/submissions" element={<SubmissionsTeacher />} />
+						<Route
+							path="/account/lessons/submissions/submission-details"
+							element={<SubmissionDetailsTeacher />}
+						/>
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : roleUser === 'STUDENT' ? (

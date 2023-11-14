@@ -6,6 +6,11 @@ export async function getAllByUser(userId: number): Promise<Submission[]> {
 	return res.json();
 }
 
+export async function getAllByLesson(lessonId: number): Promise<Submission[]> {
+	const res = await fetch(`/api/lesson/${lessonId}/submissions`);
+	return res.json();
+}
+
 export async function updateSubmission(id: number, submission: Submission): Promise<Submission> {
 	const result = await fetch(`/api/submissions/${id}`, {
 		method: 'PUT',
