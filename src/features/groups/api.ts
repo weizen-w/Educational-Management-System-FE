@@ -11,6 +11,11 @@ export async function getGroupsByAuthUser(): Promise<Group[]> {
 	return result.json();
 }
 
+export async function getMainGroupsByAuthUser(): Promise<Group> {
+	const result = await fetch(`/api/groups/mainGroupByAuthUser`);
+	return result.json();
+}
+
 export async function updateGroup(id: number, group: Group): Promise<Group> {
 	const result = await fetch(`/api/groups/${id}`, {
 		method: 'PUT',

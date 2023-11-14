@@ -12,6 +12,11 @@ export async function getAllbyTeacher(): Promise<Lesson[]> {
 	return result.json();
 }
 
+export async function getLesson(lessonId: number): Promise<Lesson> {
+	const result = await fetch(`/api/lesson/${lessonId}`);
+	return result.json();
+}
+
 export async function updateLesson(lessonId: number, lesson: LessonDto): Promise<Lesson> {
 	const result = await fetch(`/api/lesson/${lessonId}`, {
 		method: 'PUT',

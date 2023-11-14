@@ -16,6 +16,10 @@ export const loadLessonsByTeacher = createAsyncThunk('lessons/loadLessonsByTeach
 	api.getAllbyTeacher()
 );
 
+export const loadLesson = createAsyncThunk('lessons/loadLesson', (lessonId: number) =>
+	api.getLesson(lessonId)
+);
+
 export const updateLesson = createAsyncThunk('lessons/updateLessons', async (lesson: LessonDto) => {
 	// TODO groupId by LessonDto (Backend)
 	const upLesson = await api.updateLesson(lesson.lessonId, lesson);
@@ -48,6 +52,12 @@ const lessonsSlice = createSlice({
 				state.lessons = action.payload;
 			})
 			.addCase(loadLessonsByTeacher.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadLesson.fulfilled, (state, action) => {
+				state.lesson = action.payload;
+			})
+			.addCase(loadLesson.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(updateLesson.fulfilled, (state, action) => {

@@ -50,6 +50,7 @@ function Navbar(): JSX.Element {
 					{user?.role === 'STUDENT' && (
 						<>
 							<NavLink to="/account/profile">Personal information</NavLink>
+							<NavLink to="/account/lessons">My calendar</NavLink>
 						</>
 					)}
 					<NavLink to="/" onClick={handleLogout}>

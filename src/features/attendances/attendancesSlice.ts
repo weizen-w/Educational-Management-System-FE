@@ -13,6 +13,11 @@ export const loadAttendancesByUser = createAsyncThunk(
 	async (userId: number) => api.getAllByUser(userId)
 );
 
+export const loadAttendancesByAuthUser = createAsyncThunk(
+	'attendances/loadAttendancesByAuthUser',
+	() => api.getAllByAuthUser()
+);
+
 export const loadAttendancesByLesson = createAsyncThunk(
 	'attendances/loadAttendancesByLesson',
 	async (lessonId: number) => api.getAllByLesson(lessonId)
@@ -37,6 +42,12 @@ const attendancesSlice = createSlice({
 				state.attendances = action.payload;
 			})
 			.addCase(loadAttendancesByUser.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadAttendancesByAuthUser.fulfilled, (state, action) => {
+				state.attendances = action.payload;
+			})
+			.addCase(loadAttendancesByAuthUser.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(loadAttendancesByLesson.fulfilled, (state, action) => {

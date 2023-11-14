@@ -6,6 +6,11 @@ export async function getAllByUser(userId: number): Promise<Attendance[]> {
 	return res.json();
 }
 
+export async function getAllByAuthUser(): Promise<Attendance[]> {
+	const res = await fetch(`/api/attendances/byAuthUser`);
+	return res.json();
+}
+
 export async function getAllByLesson(lessonId: number): Promise<Attendance[]> {
 	const res = await fetch(`/api/lesson/${lessonId}/attendance`);
 	return res.json();

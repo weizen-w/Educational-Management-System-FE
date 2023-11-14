@@ -30,6 +30,8 @@ import LessonsTeacher from './features/lessons/LessonsTeacher';
 import LessonAttendances from './features/attendances/LessonAttendances';
 import SubmissionsTeacher from './features/submissions/SubmissionsTeacher';
 import SubmissionDetailsTeacher from './features/submissions/SubmissionsDetailsTeacher';
+import CalendarStudentLessons from './features/lessons/CalendarStudentLessons';
+import CalendarStudentAttendances from './features/attendances/CalendarStudentAttendances';
 
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -97,6 +99,8 @@ function App(): JSX.Element {
 				) : roleUser === 'STUDENT' ? (
 					<Route path="/" element={<Layout />}>
 						<Route path="/account/profile" element={<Profile />} />
+						<Route path="/account/lessons" element={<CalendarStudentLessons />} />
+						<Route path="/account/attendances" element={<CalendarStudentAttendances />} />
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : (
