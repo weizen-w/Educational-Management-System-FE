@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectAttendanceError, selectAttendances } from './selectors';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Lesson from '../lessons/types/Lesson';
-import { getLesson } from '../lessons/api';
-import { useDispatch } from 'react-redux';
 import { loadAttendancesByAuthUser } from './attendancesSlice';
 
 interface Event {
@@ -18,19 +16,25 @@ interface Event {
 }
 
 export default function CalendarStudentAttendances(): JSX.Element {
+	const location = useLocation();
+	const state: { lessons: Lesson[] } = location.state;
+	const lessons: Lesson[] = state.lessons;
 	const attendances = useAppSelector(selectAttendances);
 	const [events, setEvents] = useState<Event[]>([]);
 	const error = useAppSelector(selectAttendanceError);
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	const localizer = momentLocalizer(moment);
 
-	const fillEventsListFromAttendances = async (): Promise<void> => {
+	const getLesson = (findId: number): Lesson | undefined =>
+		lessons.find((l) => l.lessonId === findId);
+
+	const fillEventsListFromAttendances = (): void => {
 		try {
 			const eventsList: Event[] = [];
 			for (const attendance of attendances) {
-				const lesson: Lesson = await getLesson(attendance.lesson_id);
+				const lesson = getLesson(attendance.lesson_id);
 				if (lesson) {
 					eventsList.push({
 						lesson,
@@ -48,7 +52,10 @@ export default function CalendarStudentAttendances(): JSX.Element {
 	};
 
 	useEffect(() => {
-		loadAttendancesByAuthUser();
+		dispatch(loadAttendancesByAuthUser());
+	}, [dispatch]);
+
+	useEffect(() => {
 		fillEventsListFromAttendances();
 	}, [attendances]);
 

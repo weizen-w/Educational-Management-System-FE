@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectAttendanceError } from '../attendances/selectors';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,6 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Lesson from './types/Lesson';
 import { loadMainGroupsByAuthUser } from '../groups/groupsSlice';
-import { selectGroup } from '../groups/selectors';
 import { selectLessons } from './selectors';
 import { loadLessons } from './lessonsSlice';
 
@@ -19,7 +18,6 @@ interface Event {
 }
 
 export default function CalendarStudentLessons(): JSX.Element {
-	const mainGroup = useAppSelector(selectGroup);
 	const lessons: Lesson[] = useAppSelector(selectLessons);
 	const [events, setEvents] = useState<Event[]>([]);
 	const error = useAppSelector(selectAttendanceError);
@@ -47,19 +45,14 @@ export default function CalendarStudentLessons(): JSX.Element {
 	};
 
 	useEffect(() => {
-		dispatch(loadMainGroupsByAuthUser());
+		dispatch(loadMainGroupsByAuthUser())
+			.unwrap()
+			.then((resGroup) => dispatch(loadLessons(resGroup.id)));
 	}, [dispatch]);
 
-	const fetchData = useCallback(async () => {
-		if (mainGroup) {
-			await dispatch(loadLessons(mainGroup.id));
-			fillEventsListFromAttendances();
-		}
-	}, [mainGroup, loadLessons, fillEventsListFromAttendances]);
-
 	useEffect(() => {
-		fetchData();
-	}, [mainGroup]);
+		fillEventsListFromAttendances();
+	}, [lessons]);
 
 	if (events.length === 0) {
 		return (
@@ -109,7 +102,7 @@ export default function CalendarStudentLessons(): JSX.Element {
 					startAccessor="start"
 					endAccessor="end"
 					style={{ height: 500 }}
-					onSelectEvent={}
+					onSelectEvent={(event) => navigate('/account/lessons/lesson', { state: { event } })}
 				/>
 			</div>
 		</>

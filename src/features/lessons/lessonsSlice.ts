@@ -5,6 +5,39 @@ import LessonDto from './types/LessonDto';
 
 const initialState: LessonsState = {
 	lessons: [],
+	lesson: {
+		lessonId: 0,
+		group: {
+			id: 0,
+			name: '',
+			courseId: 0,
+			archived: false,
+		},
+		lessonTitle: '',
+		lessonDescription: '',
+		lessonType: '',
+		teacher: {
+			id: 0,
+			password: '',
+			firstName: '',
+			lastName: '',
+			email: '',
+			role: '',
+			state: '',
+			photoLink: '',
+		},
+		lessonDate: '',
+		startTime: '',
+		endTime: '',
+		module: {
+			id: 0,
+			name: '',
+			archived: false,
+		},
+		linkLms: '',
+		linkZoom: '',
+		archived: false,
+	},
 	error: undefined,
 };
 
