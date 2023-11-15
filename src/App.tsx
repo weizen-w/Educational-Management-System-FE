@@ -103,6 +103,8 @@ function App(): JSX.Element {
 				) : roleUser === 'STUDENT' ? (
 					<Route path="/" element={<Layout />}>
 						<Route path="/account/profile" element={<Profile />} />
+						<Route path="/account/groups" element={<GroupsTeacher />} />
+						<Route path="/account/groups/students" element={<UsersByMainGroup />} />
 						<Route path="/account/lessons" element={<CalendarStudentLessons />} />
 						<Route path="/account/attendances" element={<CalendarStudentAttendances />} />
 						<Route path="/account/lessons/lesson" element={<LessonStudent />} />
