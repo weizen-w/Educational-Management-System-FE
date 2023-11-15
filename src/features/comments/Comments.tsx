@@ -35,8 +35,7 @@ export default function Comments(props: Props): JSX.Element {
 	});
 
 	const getAuthor = (findId: number): User | undefined => {
-		const u = users.find((u) => u.id === findId);
-		return u;
+		return users.find((u) => u.id === findId);
 	};
 
 	const handleSubmitSend = useCallback(

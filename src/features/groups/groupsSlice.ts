@@ -5,6 +5,12 @@ import Group from './types/Group';
 
 const initialState: GroupsState = {
 	groups: [],
+	group: {
+		id: 0,
+		name: '',
+		courseId: 0,
+		archived: false,
+	},
 	error: undefined,
 };
 
@@ -12,6 +18,11 @@ export const loadGroups = createAsyncThunk('groups/loadGroups', () => api.getAll
 
 export const loadGroupsByAuthUser = createAsyncThunk('groups/loadGroupsByAuthUser', () =>
 	api.getGroupsByAuthUser()
+);
+
+export const loadMainGroupsByAuthUser = createAsyncThunk(
+	'groups/loadMainGroupsByAuthUser',
+	async () => api.getMainGroupsByAuthUser()
 );
 
 export const updateGroup = createAsyncThunk('groups/updateGroup', async (group: Group) =>
@@ -42,6 +53,12 @@ const groupsSlice = createSlice({
 				state.groups = action.payload;
 			})
 			.addCase(loadGroupsByAuthUser.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadMainGroupsByAuthUser.fulfilled, (state, action) => {
+				state.group = action.payload;
+			})
+			.addCase(loadMainGroupsByAuthUser.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(updateGroup.fulfilled, (state, action) => {

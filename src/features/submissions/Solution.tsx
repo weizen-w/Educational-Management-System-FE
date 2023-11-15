@@ -92,7 +92,7 @@ export default function Solution(props: Props): JSX.Element {
 			if (!description.trim()) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
-					descriptionError: 'The name cannot be empty or only spaces',
+					descriptionError: 'The description cannot be empty or only spaces',
 				}));
 				hasError = true;
 			}
@@ -149,22 +149,26 @@ export default function Solution(props: Props): JSX.Element {
 				}}
 			>
 				<span>Status: </span>
-				<select
-					style={{ maxWidth: '150px' }}
-					className="form-select form-select-sm"
-					name="submission_state"
-					value={currSubmission.submission_state}
-					onChange={handleChangeStatus}
-				>
-					<option value="" disabled hidden>
-						Select state...
-					</option>
-					{Object.keys(SubmissionStatus).map((key) => (
-						<option key={key} value={SubmissionStatus[key as keyof typeof SubmissionStatus]}>
-							{SubmissionStatus[key as keyof typeof SubmissionStatus]}
+				{user?.role === 'TEACHER' || user?.role === 'ADMIN' ? (
+					<select
+						style={{ maxWidth: '150px' }}
+						className="form-select form-select-sm"
+						name="submission_state"
+						value={currSubmission.submission_state}
+						onChange={handleChangeStatus}
+					>
+						<option value="" disabled hidden>
+							Select state...
 						</option>
-					))}
-				</select>
+						{Object.keys(SubmissionStatus).map((key) => (
+							<option key={key} value={SubmissionStatus[key as keyof typeof SubmissionStatus]}>
+								{SubmissionStatus[key as keyof typeof SubmissionStatus]}
+							</option>
+						))}
+					</select>
+				) : (
+					<span>{submission.submission_state}</span>
+				)}
 			</h4>
 
 			{newSubmission.description.length === 0 ? (

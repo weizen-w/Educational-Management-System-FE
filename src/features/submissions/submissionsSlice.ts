@@ -5,6 +5,14 @@ import Submission from './types/Submisson';
 
 const initialState: SubmissionsState = {
 	submissions: [],
+	submission: {
+		submission_id: 0,
+		description: '',
+		lesson_id: 0,
+		student_id: 0,
+		submission_state: '',
+		archived: false,
+	},
 	error: undefined,
 };
 
@@ -16,6 +24,12 @@ export const loadSubmissionsByUser = createAsyncThunk(
 export const loadSubmissionsByLesson = createAsyncThunk(
 	'submissions/loadSubmissionsByLesson',
 	async (lessonId: number) => api.getAllByLesson(lessonId)
+);
+
+export const createSubmissionByLesson = createAsyncThunk(
+	'submissions/createSubmissionByLesson',
+	async (submission: { lessonId: number; description: string }) =>
+		api.createSubmission(submission.lessonId, submission.description)
 );
 
 export const updateSubmission = createAsyncThunk(
@@ -43,6 +57,12 @@ const submissionsSlice = createSlice({
 				state.submissions = action.payload;
 			})
 			.addCase(loadSubmissionsByLesson.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(createSubmissionByLesson.fulfilled, (state, action) => {
+				state.submission = action.payload;
+			})
+			.addCase(createSubmissionByLesson.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(updateSubmission.fulfilled, (state, action) => {

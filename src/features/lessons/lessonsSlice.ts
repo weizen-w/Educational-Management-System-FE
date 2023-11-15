@@ -5,6 +5,39 @@ import LessonDto from './types/LessonDto';
 
 const initialState: LessonsState = {
 	lessons: [],
+	lesson: {
+		lessonId: 0,
+		group: {
+			id: 0,
+			name: '',
+			courseId: 0,
+			archived: false,
+		},
+		lessonTitle: '',
+		lessonDescription: '',
+		lessonType: '',
+		teacher: {
+			id: 0,
+			password: '',
+			firstName: '',
+			lastName: '',
+			email: '',
+			role: '',
+			state: '',
+			photoLink: '',
+		},
+		lessonDate: '',
+		startTime: '',
+		endTime: '',
+		module: {
+			id: 0,
+			name: '',
+			archived: false,
+		},
+		linkLms: '',
+		linkZoom: '',
+		archived: false,
+	},
 	error: undefined,
 };
 
@@ -14,6 +47,10 @@ export const loadLessons = createAsyncThunk('lessons/loadLessons', async (id: nu
 
 export const loadLessonsByTeacher = createAsyncThunk('lessons/loadLessonsByTeacher', () =>
 	api.getAllbyTeacher()
+);
+
+export const loadLesson = createAsyncThunk('lessons/loadLesson', (lessonId: number) =>
+	api.getLesson(lessonId)
 );
 
 export const updateLesson = createAsyncThunk('lessons/updateLessons', async (lesson: LessonDto) => {
@@ -48,6 +85,12 @@ const lessonsSlice = createSlice({
 				state.lessons = action.payload;
 			})
 			.addCase(loadLessonsByTeacher.rejected, (state, action) => {
+				state.error = action.error.message;
+			})
+			.addCase(loadLesson.fulfilled, (state, action) => {
+				state.lesson = action.payload;
+			})
+			.addCase(loadLesson.rejected, (state, action) => {
 				state.error = action.error.message;
 			})
 			.addCase(updateLesson.fulfilled, (state, action) => {

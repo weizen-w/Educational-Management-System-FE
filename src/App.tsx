@@ -30,6 +30,11 @@ import LessonsTeacher from './features/lessons/LessonsTeacher';
 import LessonAttendances from './features/attendances/LessonAttendances';
 import SubmissionsTeacher from './features/submissions/SubmissionsTeacher';
 import SubmissionDetailsTeacher from './features/submissions/SubmissionsDetailsTeacher';
+import CalendarStudentLessons from './features/lessons/CalendarStudentLessons';
+import CalendarStudentAttendances from './features/attendances/CalendarStudentAttendances';
+import LessonStudent from './features/lessons/LessonStudent';
+import SubmissionDetailsStudent from './features/submissions/SubmissionDetailsStudent';
+import SubmissionCreate from './features/submissions/SubmissionCreate';
 
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -98,6 +103,14 @@ function App(): JSX.Element {
 				) : roleUser === 'STUDENT' ? (
 					<Route path="/" element={<Layout />}>
 						<Route path="/account/profile" element={<Profile />} />
+						<Route path="/account/lessons" element={<CalendarStudentLessons />} />
+						<Route path="/account/attendances" element={<CalendarStudentAttendances />} />
+						<Route path="/account/lessons/lesson" element={<LessonStudent />} />
+						<Route
+							path="/account/lessons/lesson/submission"
+							element={<SubmissionDetailsStudent />}
+						/>
+						<Route path="/account/lessons/lesson/add-submission" element={<SubmissionCreate />} />
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				) : (
