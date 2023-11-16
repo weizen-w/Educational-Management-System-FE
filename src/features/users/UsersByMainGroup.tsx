@@ -14,7 +14,6 @@ export default function UsersByMainGroup(): JSX.Element {
 	const users = useAppSelector<User[]>(selectUsers);
 	const dispatch = useAppDispatch();
 
-
 	useEffect(() => {
 		dispatch(loadUsersByMainGroup(group.id));
 	}, [dispatch]);
@@ -45,19 +44,17 @@ export default function UsersByMainGroup(): JSX.Element {
 						<th scope="col">Last name</th>
 						<th scope="col">Email</th>
 						<th scope="col">Role</th>
-						<th scope="col">Photo</th>
 					</tr>
 				</thead>
 				<tbody>
 					{users
-						.toSorted((a, b) => a.lastName.localeCompare(b.lastName))
+						.toSorted((a, b) => (a?.lastName || '').localeCompare(b?.lastName || ''))
 						.map((user) => (
 							<tr key={user.id}>
 								<td>{user.firstName}</td>
 								<td>{user.lastName}</td>
 								<td>{user.email}</td>
 								<td>{user.role}</td>
-								<td>{user.photoLink}</td>
 							</tr>
 						))}
 				</tbody>

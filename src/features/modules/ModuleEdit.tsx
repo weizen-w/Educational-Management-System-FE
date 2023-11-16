@@ -169,10 +169,10 @@ export default function ModuleEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-1">
-								<button type="submit" className="btn btn-outline-success">
+								<button type="submit" className="btn btn-success">
 									Save
 								</button>
-								<button className="btn btn-outline-danger" onClick={handleCancel}>
+								<button className="btn btn-danger" onClick={handleCancel}>
 									Cancel
 								</button>
 							</div>

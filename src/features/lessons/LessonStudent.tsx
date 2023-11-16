@@ -67,9 +67,9 @@ export default function LessonStudent(): JSX.Element {
 				<tbody>
 					<tr>
 						<th scope="row">Type</th>
-						<td>{lesson.lessonType}</td>
+						<td colSpan={2}>{lesson.lessonType}</td>
 						<th scope="row">Module</th>
-						<td>{lesson.module.name}</td>
+						<td colSpan={2}>{lesson.module.name}</td>
 					</tr>
 					<tr>
 						<th scope="row">Title</th>
@@ -88,17 +88,16 @@ export default function LessonStudent(): JSX.Element {
 							End time
 						</th>
 						<td className="col-md-1">{lesson.endTime}</td>
-						<td></td>
 					</tr>
 					<tr>
 						<th scope="row">Teacher</th>
-						<td>
+						<td colSpan={2}>
 							{lesson.teacher.firstName} {lesson.teacher.lastName}
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">Link to LMS</th>
-						<td>
+						<td colSpan={2}>
 							<a href={lesson.linkLms} target="_blank" rel="noreferrer">
 								Link to LMS
 							</a>
@@ -106,7 +105,7 @@ export default function LessonStudent(): JSX.Element {
 					</tr>
 					<tr>
 						<th scope="row">Link to Zoom</th>
-						<td>
+						<td colSpan={2}>
 							<a href={lesson.linkZoom} target="_blank" rel="noreferrer">
 								Link to Zoom
 							</a>

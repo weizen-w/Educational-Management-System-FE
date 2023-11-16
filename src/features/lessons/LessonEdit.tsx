@@ -384,10 +384,10 @@ export default function LessonEdit(props: Props): JSX.Element {
 										.slice()
 										.filter((user) => user.role === 'TEACHER')
 										.sort((a, b) => {
-											if (a.lastName < b.lastName) {
+											if ((a.lastName || '') < (b.lastName || '')) {
 												return -1;
 											}
-											if (a.lastName > b.lastName) {
+											if ((a.lastName || '') > (b.lastName || '')) {
 												return 1;
 											}
 											return 0;

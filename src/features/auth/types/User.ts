@@ -1,10 +1,10 @@
 export default interface User {
 	id: number;
 	password: string | undefined;
-	firstName: string;
-	lastName: string;
-	email: string;
-	role: string;
-	state: string;
-	photoLink: string;
+	firstName: string | undefined;
+	lastName: string | undefined;
+	email: string | undefined;
+	role: string | undefined;
+	state: string | undefined;
+	photoLink: string | undefined;
 }
