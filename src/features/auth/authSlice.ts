@@ -3,6 +3,7 @@ import AuthState from './types/AuthState';
 import Credentials from './types/Credentials';
 import * as api from './api';
 import RegisterData from './types/RegisterData';
+import User from './types/User';
 
 const initialState: AuthState = {
 	authChecked: false,
@@ -11,7 +12,7 @@ const initialState: AuthState = {
 	registerFormError: undefined,
 };
 
-export const getUser = createAsyncThunk('api/users/my/profile', () => api.user());
+export const getUser = createAsyncThunk('api/users/profile', () => api.user());
 
 export const login = createAsyncThunk('login', async (credentials: Credentials) => {
 	if (!credentials.email.trim() || !credentials.password.trim()) {
@@ -30,7 +31,15 @@ export const register = createAsyncThunk('api/register', async (data: RegisterDa
 	return api.register(data);
 });
 
+export const corfirmEmail = createAsyncThunk('cofirmEmail', async (corfirmCode: string) => {
+	return api.corfirmEmail(corfirmCode);
+});
+
 export const logout = createAsyncThunk('logout', api.logout);
+
+export const updateProfile = createAsyncThunk('updateProfile', async (user: User) => {
+	return api.updateProfile(user);
+});
 
 const authSlice = createSlice({
 	name: 'auth',
@@ -51,8 +60,13 @@ const authSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(getUser.rejected, (state) => {
-				state.authChecked = true;
+				state.authChecked = false;
+				state.user = undefined;
 			})
+			.addCase(updateProfile.fulfilled, (state, action) => {
+				state.user = action.payload;
+			})
+
 			.addCase(login.fulfilled, (state) => {
 				state.loginFormError = undefined;
 			})
@@ -61,8 +75,8 @@ const authSlice = createSlice({
 				state.loginFormError = action.error.message;
 			})
 			.addCase(logout.fulfilled, (state) => {
+				state.authChecked = false;
 				state.user = undefined;
-				state.authChecked = true;
 			})
 			.addCase(register.fulfilled, (state, action) => {
 				state.user = action.payload;
@@ -70,6 +84,9 @@ const authSlice = createSlice({
 			})
 			.addCase(register.rejected, (state, action) => {
 				state.registerFormError = action.error.message;
+			})
+			.addCase(corfirmEmail.fulfilled, (state, action) => {
+				state.user = action.payload;
 			});
 	},
 });
