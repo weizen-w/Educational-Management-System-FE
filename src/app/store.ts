@@ -8,6 +8,7 @@ import lessonsSlice from '../features/lessons/lessonsSlice';
 import attendancesSlice from '../features/attendances/attendancesSlice';
 import submissionsSlice from '../features/submissions/submissionsSlice';
 import commentsSlice from '../features/comments/commentsSlice';
+import materialsSlice from '../features/materials/materialsSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
 		attendances: attendancesSlice,
 		submissions: submissionsSlice,
 		comments: commentsSlice,
+		materials: materialsSlice,
 	},
 });
 
