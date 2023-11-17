@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Course from './types/Course';
 
 export async function getAll(): Promise<Course[]> {

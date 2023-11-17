@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import FileInfo from './FileInfo';
 
 export async function addFile(file: File): Promise<FileInfo> {

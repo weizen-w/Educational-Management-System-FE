@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Group from './types/Group';
 
 export async function getAll(): Promise<Group[]> {

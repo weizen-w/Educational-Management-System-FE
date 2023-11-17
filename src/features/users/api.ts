@@ -1,5 +1,5 @@
 import User from '../auth/types/User';
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 
 export async function getAll(): Promise<User[]> {
 	const res = await fetch('/api/users');

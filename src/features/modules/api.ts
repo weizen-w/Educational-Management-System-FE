@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Module from './types/Module';
 
 export async function getAllModules(): Promise<Module[]> {

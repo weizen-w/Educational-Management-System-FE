@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Submission from './types/Submisson';
 
 export async function getAllByUser(userId: number): Promise<Submission[]> {

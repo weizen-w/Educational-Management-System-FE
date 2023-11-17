@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Credentials from './types/Credentials';
 import RegisterData from './types/RegisterData';
 import User from './types/User';

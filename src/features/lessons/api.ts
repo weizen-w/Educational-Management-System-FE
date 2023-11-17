@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Lesson from './types/Lesson';
 import LessonDto from './types/LessonDto';
 

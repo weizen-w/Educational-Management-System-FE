@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Comment from './types/Comment';
 
 export async function getAllBySubmission(submissionId: number): Promise<Comment[]> {

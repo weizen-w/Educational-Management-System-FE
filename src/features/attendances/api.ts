@@ -1,4 +1,4 @@
-import ErrorResponse from '../errors/ErrorResponse';
+import ErrorResponse from '../error/ErrorResponse';
 import Attendance from './types/Attendance';
 
 export async function getAllByUser(userId: number): Promise<Attendance[]> {
