@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 export default function NotFoundPage(): JSX.Element {
-	return <h1>NotFoundPage "404"</h1>;
+	return <h1>Not found page CODE: 404</h1>;
 }

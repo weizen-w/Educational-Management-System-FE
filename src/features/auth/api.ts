@@ -20,7 +20,6 @@ export async function updateProfile(authUser: User): Promise<User> {
 			'Content-Type': 'application/json',
 		},
 	});
-	console.log(authUser);
 	if (!res.ok) {
 		let errTotalMessage = '';
 		const errRes: ErrorResponse = await res.json();

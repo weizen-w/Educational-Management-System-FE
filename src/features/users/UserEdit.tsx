@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/default
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { resetUserError, updateUser } from './usersSlice';
 import User from '../auth/types/User';
@@ -75,35 +74,35 @@ export default function UserEdit(props: Props): JSX.Element {
 				}));
 				hasError = true;
 			}
-			if (!firstName.trim()) {
+			if (firstName && !firstName.trim()) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
 					firstNameError: 'The first name cannot be empty or only spaces',
 				}));
 				hasError = true;
 			}
-			if (firstName.length > 50) {
+			if (firstName && firstName.length > 50) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
 					firstNameError: 'The first name cannot be more than 50 characters',
 				}));
 				hasError = true;
 			}
-			if (!lastName.trim()) {
+			if (lastName && !lastName.trim()) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
 					lastNameError: 'The last name cannot be empty or only spaces',
 				}));
 				hasError = true;
 			}
-			if (lastName.length > 50) {
+			if (lastName && lastName.length > 50) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
 					lastNameError: 'The last name cannot be more than 50 characters',
 				}));
 				hasError = true;
 			}
-			if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+			if (email && !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
 				setErrorsObj((prevErrorsObj) => ({
 					...prevErrorsObj,
 					emailError: 'The email does not reflect the format: email@email.com',

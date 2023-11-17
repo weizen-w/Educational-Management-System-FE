@@ -8,7 +8,7 @@ function Main(): JSX.Element {
 
 	return (
 		<>
-			<header>header ))</header>
+			<header>header</header>
 			<div className="layout-page">
 				<div className="layout-left-navbar">
 					<Navbar />

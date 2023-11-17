@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { useCallback, useState } from 'react';
 import Course from './types/Course';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';

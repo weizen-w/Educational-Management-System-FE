@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/default
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import User from '../auth/types/User';
 import { resetUserError } from '../users/usersSlice';

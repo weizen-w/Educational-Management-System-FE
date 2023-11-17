@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import Group from './types/Group';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectGroupError } from './selectors';

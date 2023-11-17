@@ -1,29 +1,29 @@
 html {
-  height: 100%;
-  font-size: 14px
+	height: 100%;
+	font-size: 14px;
 }
 
 body {
-  font-family: var(--font-family);
-  color: rgb(73, 80, 87);
-  background-color: rgb(239, 243, 248);
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale
+	font-family: var(--font-family);
+	color: rgb(73, 80, 87);
+	background-color: rgb(239, 243, 248);
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 header {
-  text-align: center;
-  font-size: 30px;
-  background-color: rgb(255, 255, 255);
-  height: 70px;
+	text-align: center;
+	font-size: 30px;
+	background-color: rgb(255, 255, 255);
+	height: 70px;
 }
 
 a {
-  text-decoration: none;
-  color: var(--primary-color)
+	text-decoration: none;
+	color: var(--primary-color);
 }
 
 .layout-page {
@@ -31,56 +31,56 @@ a {
 }
 
 .layout-left-navbar {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  width: 300px;
-  height: calc(100vh - 9rem);
-  z-index: 999;
-  top: 7rem;
-  left: 2rem;
-  background-color: rgb(255, 255, 255);
-  border-radius: 12px;
-  padding: .5rem 1.5rem;
-  box-shadow: 0 3px 5px #00000005,0 0 2px #0000000d,0 1px 4px #00000014
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	width: 300px;
+	height: calc(100vh - 9rem);
+	z-index: 999;
+	top: 7rem;
+	left: 2rem;
+	background-color: rgb(255, 255, 255);
+	border-radius: 12px;
+	padding: 0.5rem 1.5rem;
+	box-shadow: 0 3px 5px #00000005, 0 0 2px #0000000d, 0 1px 4px #00000014;
 }
 
 nav {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 a {
-  border-radius: 5px;
-  margin-top: 5px;
-  padding: 10px;
+	border-radius: 5px;
+	margin-top: 5px;
+	padding: 10px;
 }
 
 a:hover {
-  background-color: rgb(238, 238, 238);
+	background-color: rgb(238, 238, 238);
 }
 
 .active {
-  border-left: 10px solid rgb(120, 120, 120);
-  background-color: rgb(238, 238, 238);
+	border-left: 10px solid rgb(120, 120, 120);
+	background-color: rgb(238, 238, 238);
 }
 
 .layout-main {
-  display: flex;
-  flex-direction: column;
-  margin-left: 350px;
-  margin-top: 2rem;
-  min-height: 10vh;
-  justify-content: space-between;
-  padding: 7rem 2rem 2rem 4rem;
-  background: rgb(255, 255, 255);
-  border: 1px solid var(--surface-border);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 3px 5px #00000005,0 0 2px #0000000d,0 1px 4px #00000014;
-  border-radius: 12px
+	display: flex;
+	flex-direction: column;
+	margin-left: 350px;
+	margin-top: 2rem;
+	min-height: 10vh;
+	justify-content: space-between;
+	padding: 7rem 2rem 2rem 4rem;
+	background: rgb(255, 255, 255);
+	border: 1px solid var(--surface-border);
+	padding: 2rem;
+	margin-bottom: 2rem;
+	box-shadow: 0 3px 5px #00000005, 0 0 2px #0000000d, 0 1px 4px #00000014;
+	border-radius: 12px;
 }
 
 .layout-main-content {
-  flex: 1 1 auto
+	flex: 1 1 auto;
 }
