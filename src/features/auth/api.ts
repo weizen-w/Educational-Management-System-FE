@@ -73,7 +73,7 @@ export async function register(data: RegisterData): Promise<User> {
 }
 
 export async function corfirmEmail(confirmCode: string): Promise<User> {
-	const res = await fetch(`api/users/confirm/${confirmCode}`);
+	const res = await fetch(`/api/users/confirm/${confirmCode}`);
 	if (!res.ok) {
 		const { message }: { message: string } = await res.json();
 		throw new Error(message);
