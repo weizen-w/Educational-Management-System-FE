@@ -35,6 +35,7 @@ import CalendarStudentAttendances from './features/attendances/CalendarStudentAt
 import LessonStudent from './features/lessons/LessonStudent';
 import SubmissionDetailsStudent from './features/submissions/SubmissionDetailsStudent';
 import SubmissionCreate from './features/submissions/SubmissionCreate';
+import Materials from './features/materials/Materials';
 
 function App(): JSX.Element {
 	const dispatch = useAppDispatch();
@@ -105,6 +106,7 @@ function App(): JSX.Element {
 						<Route path="/account/profile" element={<Profile />} />
 						<Route path="/account/groups" element={<GroupsTeacher />} />
 						<Route path="/account/groups/students" element={<UsersByMainGroup />} />
+						<Route path="/account/group/student-book" element={<Materials />} />
 						<Route path="/account/lessons" element={<CalendarStudentLessons />} />
 						<Route path="/account/attendances" element={<CalendarStudentAttendances />} />
 						<Route path="/account/lessons/lesson" element={<LessonStudent />} />
