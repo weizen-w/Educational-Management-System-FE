@@ -138,39 +138,40 @@ export default function Solution(props: Props): JSX.Element {
 
 	return (
 		<div className={styles.solutionBlock}>
-			<h2>Solution</h2>
-			<h4
+			<h2
 				style={{
 					display: 'flex',
 					flexDirection: 'row',
+					justifyContent: 'space-between',
 					gap: '10px',
-					backgroundColor: 'lightskyblue',
 					padding: '10px',
 				}}
 			>
-				<span>Status: </span>
-				{user?.role === 'TEACHER' || user?.role === 'ADMIN' ? (
-					<select
-						style={{ maxWidth: '150px' }}
-						className="form-select form-select-sm"
-						name="submission_state"
-						value={currSubmission.submission_state}
-						onChange={handleChangeStatus}
-					>
-						<option value="" disabled hidden>
-							Select state...
-						</option>
-						{Object.keys(SubmissionStatus).map((key) => (
-							<option key={key} value={SubmissionStatus[key as keyof typeof SubmissionStatus]}>
-								{SubmissionStatus[key as keyof typeof SubmissionStatus]}
+				Solution
+				<span>
+					<span>Status: </span>
+					{user?.role === 'TEACHER' || user?.role === 'ADMIN' ? (
+						<select
+							style={{ maxWidth: '150px' }}
+							className="form-select form-select-sm"
+							name="submission_state"
+							value={currSubmission.submission_state}
+							onChange={handleChangeStatus}
+						>
+							<option value="" disabled hidden>
+								Select state...
 							</option>
-						))}
-					</select>
-				) : (
-					<span>{submission.submission_state}</span>
-				)}
-			</h4>
-
+							{Object.keys(SubmissionStatus).map((key) => (
+								<option key={key} value={SubmissionStatus[key as keyof typeof SubmissionStatus]}>
+									{SubmissionStatus[key as keyof typeof SubmissionStatus]}
+								</option>
+							))}
+						</select>
+					) : (
+						<span>{submission.submission_state}</span>
+					)}
+				</span>
+			</h2>
 			{newSubmission.description.length === 0 ? (
 				<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>
 					<div className={stylesEditor.textEditor}>

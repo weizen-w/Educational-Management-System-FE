@@ -15,7 +15,9 @@ export default function Profile(): JSX.Element {
 	const [fileError, setFileError] = useState<string>('');
 
 	const checkAvatar = (): string => {
-		return user?.photoLink ? user?.photoLink : 'public/default-avatar.png';
+		return user?.photoLink
+			? user?.photoLink
+			: 'https://ems-files.fra1.digitaloceanspaces.com/avatar/default-avatar.png';
 	};
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
