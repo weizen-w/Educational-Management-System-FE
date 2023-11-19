@@ -107,6 +107,7 @@ export default function CalendarStudentAttendances(): JSX.Element {
 					startAccessor="start"
 					endAccessor="end"
 					style={{ height: 500 }}
+					onSelectEvent={(event) => navigate('/account/lessons/lesson', { state: { event } })}
 				/>
 			</div>
 		</>

@@ -5,10 +5,7 @@ function MainPage(): JSX.Element {
 			<h1>Project Educational Managment System</h1>
 			<ul>
 				<li>Final project gr.Cohort26 (Backend)</li>
-				<li>
-					authors: Oleksandr Zhurba, Wladimir Weizen, Alexander Nartow, Tetiana Chernobai, Kateryna
-					Horshkova
-				</li>
+				<li>authors: Oleksandr Zhurba, Wladimir Weizen, Tetiana Chernobai, Kateryna Horshkova</li>
 			</ul>
 
 			<p>
