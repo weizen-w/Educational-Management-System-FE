@@ -9,3 +9,25 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+@media screen and (max-width: 600px) {
+	.sidebar {
+			display: none !important;
+	}
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+	.sidebar {
+		display: none !important;
+}
+}
+@media screen and (min-width: 1025px) {
+	.sidebar {
+		display: none !important;
+}
+}
+
+@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+	.sidebar {
+		display: none !important;
+}
+}

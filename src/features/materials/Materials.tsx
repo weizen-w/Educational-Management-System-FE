@@ -12,7 +12,12 @@ export default function Materials(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const [search, setSearch] = useState<string>('');
 
-	const filteredMaterials = materials.filter((m) => m.mdContent.includes(search));
+	const filteredMaterials = materials.filter((m) => {
+		const contentLower = m.mdContent.toLowerCase();
+		const searchLower = search.toLowerCase();
+		const searchWords = searchLower.split(' ');
+		return searchWords.every((word) => contentLower.includes(word));
+	});
 
 	useEffect(() => {
 		dispatch(loadMainGroupsByAuthUser())
