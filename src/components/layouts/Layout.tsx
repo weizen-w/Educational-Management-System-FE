@@ -1,14 +1,15 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import MainPage from '../main/MainPage';
 import './Layout.css';
 
 function Main(): JSX.Element {
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	return (
 		<>
-			<header></header>
+			<header onClick={() => navigate('/')}></header>
 			<div className="layout-page">
 				<div className="layout-left-navbar">
 					<Navbar />
