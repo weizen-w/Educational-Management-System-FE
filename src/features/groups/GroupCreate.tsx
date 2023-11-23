@@ -137,7 +137,7 @@ export default function GroupCreate(): JSX.Element {
 						className={`form-control ${error ? 'is-invalid' : ''}`}
 						name="name"
 						value={newGroup.name}
-						placeholder="Course name"
+						placeholder="Group name"
 						onChange={handleInputChange}
 					/>
 				</div>

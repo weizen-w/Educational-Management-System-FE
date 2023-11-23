@@ -318,7 +318,8 @@ export default function LessonEdit(props: Props): JSX.Element {
 				<tr>
 					<td colSpan={12}>
 						<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>
-							<div className="col-md-2">
+							<div className="col-md-4">
+								<label>Lesson title</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -334,6 +335,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-12">
+								<label>Lesson description</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -349,6 +351,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-2">
+								<label>Lesson type</label>
 								<select
 									className={`form-select ${error ? 'is-invalid' : ''}`}
 									name="lessonType"
@@ -371,6 +374,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-4">
+								<label>Teacher</label>
 								<select
 									className={`form-select ${error ? 'is-invalid' : ''}`}
 									name="teacherId"
@@ -405,6 +409,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-4">
+								<label>Lesson date</label>
 								<input
 									type="date"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -420,6 +425,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-4">
+								<label>Lesson start time</label>
 								<input
 									type="time"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -435,6 +441,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-4">
+								<label>Lesson end time</label>
 								<input
 									type="time"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -450,6 +457,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-2">
+								<label>Module</label>
 								<select
 									className={`form-select ${error ? 'is-invalid' : ''}`}
 									name="moduleId"
@@ -475,6 +483,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-12">
+								<label>Link LMS</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}
@@ -490,6 +499,7 @@ export default function LessonEdit(props: Props): JSX.Element {
 								)}
 							</div>
 							<div className="col-md-12">
+								<label>Link Zoom</label>
 								<input
 									type="text"
 									className={`form-control ${error ? 'is-invalid' : ''}`}

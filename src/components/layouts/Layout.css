@@ -19,6 +19,10 @@ header {
 	font-size: 30px;
 	background-color: rgb(255, 255, 255);
 	height: 70px;
+	background-image: url(/public/header.png);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 a {

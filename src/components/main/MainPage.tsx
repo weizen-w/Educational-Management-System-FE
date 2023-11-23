@@ -2,9 +2,9 @@
 function MainPage(): JSX.Element {
 	return (
 		<div>
-			<h1>Project Educational Managment System</h1>
+			<h1>Project "Educational Managment System"</h1>
 			<ul>
-				<li>Final project gr.Cohort26 (Backend)</li>
+				<li>Final project gr.Cohort26</li>
 				<li>authors: Oleksandr Zhurba, Wladimir Weizen, Tetiana Chernobai, Kateryna Horshkova</li>
 			</ul>
 
@@ -58,6 +58,18 @@ function MainPage(): JSX.Element {
 			<ul>
 				<li>Clear overviews of lecture timetables.</li>
 				<li>Enhanced planning and management of the educational process.</li>
+			</ul>
+
+			<h4>5. Student Book</h4>
+			<p>
+				A centralized hub where students can access all information related to lesson theory.
+				Students can:
+			</p>
+			<ul>
+				<li>
+					Access comprehensive theoretical materials for all lessons in one centralized location.
+				</li>
+				<li>Print or find necessary information easily.</li>
 			</ul>
 
 			<h3>Project Advantages</h3>
