@@ -26,7 +26,6 @@ function Navbar(): JSX.Element {
 				<>
 					<NavLink to="/auth/login">Sign in</NavLink>
 					<NavLink to="/auth/register">Registration</NavLink>
-					<NavLink to="/confirm/:confirmCode">Confirm</NavLink>
 				</>
 			) : (
 				<>
