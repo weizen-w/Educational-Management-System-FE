@@ -54,7 +54,7 @@ function App(): JSX.Element {
 					<Route path="/" element={<Layout />}>
 						<Route path="/auth/login" element={<Login />} />
 						<Route path="/auth/register" element={<Register />} />
-						<Route path="/api/users/confirm/:confirmCode" element={<Confirmation />} />
+						<Route path="/confirm/:confirmCode" element={<Confirmation />} />
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				)}
