@@ -60,6 +60,18 @@ function MainPage(): JSX.Element {
 				<li>Enhanced planning and management of the educational process.</li>
 			</ul>
 
+			<h4>5. Student Book</h4>
+			<p>
+				A centralized hub where students can access all information related to lesson theory.
+				Students can:
+			</p>
+			<ul>
+				<li>
+					Access comprehensive theoretical materials for all lessons in one centralized location.
+				</li>
+				<li>Print or find necessary information easily.</li>
+			</ul>
+
 			<h3>Project Advantages</h3>
 			<p>
 				Our project aims not only to manage data but also to create an environment that fosters

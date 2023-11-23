@@ -311,7 +311,7 @@ export default function LessonEditTeacher(props: Props): JSX.Element {
 				<tr>
 					<td colSpan={12}>
 						<form className="auth-form row g-1" onSubmit={handleSubmitUpdate}>
-							<div className="col-md-3">
+							<div className="col-md-4">
 								<label>Lesson title</label>
 								<input
 									type="text"
